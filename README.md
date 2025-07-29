@@ -121,18 +121,6 @@ npx nodemon src/app.js
 npm install -g nodemon
 nodemon src/app.js
 ```
-
----
-
-### 🗄️ Iniciar la base de datos con MongoDB Compass en Linux
-
-1. Abre MongoDB Compass desde el menú de aplicaciones o ejecuta `mongodb-compass` en la terminal.
-2. En la pantalla de inicio, ingresa la URI de conexión:  
-   `mongodb://localhost:27017/servitech`
-3. Haz clic en "Connect" para conectarte.
-4. Si la base de datos no existe, se creará automáticamente al ejecutar el backend o el script de inicialización.
-5. Puedes visualizar, crear y editar colecciones desde la interfaz de Compass.
-
 ---
 
 ### 🗄️ Iniciar la base de datos con MongoDB Atlas y Compass en Linux
@@ -141,7 +129,7 @@ nodemon src/app.js
 2. Crea un nuevo cluster gratuito y espera a que esté listo.
 3. En "Database Access", crea un usuario con contraseña y permisos de lectura/escritura.
 4. En "Network Access", agrega tu IP pública o permite acceso desde cualquier IP (`0.0.0.0/0`).
-5. Copia la URI de conexión del cluster (formato:  
+5. Copia la URI de conexión del cluster (formato:
    `mongodb+srv://dianacjj23:<db_password>@adso2873441.e4hnh5b.mongodb.net/servitech?retryWrites=true&w=majority`)
 6. Abre MongoDB Compass y pega la URI en el campo de conexión.
 7. Haz clic en "Connect" para conectarte y gestionar la base de datos.
@@ -151,15 +139,15 @@ nodemon src/app.js
 
 ## ⚙️ Comandos Clave
 
-- Instalar dependencias:  
+- Instalar dependencias:
   `npm install`
-- Inicializar datos de prueba:  
+- Inicializar datos de prueba:
   `node inicializar.js`
-- Iniciar servidor backend:  
+- Iniciar servidor backend:
   `node src/app.js`
-- Iniciar servidor con nodemon (desarrollo):  
-  `npx nodemon src/app.js`  
-  o si está instalado globalmente:  
+- Iniciar servidor con nodemon (desarrollo):
+  `npx nodemon src/app.js`
+  o si está instalado globalmente:
   `nodemon src/app.js`
 
 ---
@@ -208,7 +196,7 @@ Abre tu navegador y visita:
 
 ## 🧑‍💻 Autor
 
-**Diana Carolina Jiménez**  
+**Diana Carolina Jiménez**
 GitHub: [@DianaJJ0](https://github.com/DianaJJ0)
 
 ---
@@ -223,60 +211,20 @@ GitHub: [@DianaJJ0](https://github.com/DianaJJ0)
 
 ## ❓ Preguntas Frecuentes
 
-**¿Por qué me sale error con `npm install`?**  
+**¿Por qué me sale error con `npm install`?**
 Asegúrate de estar en la carpeta `backend` y que exista el archivo `package.json`.
 
-**¿Cómo cambio el puerto?**  
+**¿Cómo cambio el puerto?**
 Edita la variable `PORT` en el archivo `.env`.
 
-**¿Cómo inicializo datos de prueba?**  
+**¿Cómo inicializo datos de prueba?**
 Ejecuta `node inicializar.js` en la carpeta `backend`.
 
-**¿Cómo accedo al sistema?**  
+**¿Cómo accedo al sistema?**
 Abre tu navegador y visita `http://localhost:3001/`.
 
-**¿Cómo uso nodemon para desarrollo?**  
+**¿Cómo uso nodemon para desarrollo?**
 Instala nodemon con `npm install -g nodemon` y ejecuta `nodemon src/app.js` para reinicio automático del servidor al hacer cambios.
-
----
-
-## 🛠️ Solución de problemas: Instalación de nodemon en Linux
-
-Si al instalar nodemon globalmente ves un error de permisos (`EACCES`), ejecuta el comando con `sudo`:
-
-```bash
-sudo npm install -g nodemon
-```
-
-O instala nodemon localmente en tu proyecto y ejecútalo con `npx` (no requiere permisos especiales):
-
-```bash
-npm install --save-dev nodemon
-npx nodemon src/app.js
-```
-
----
-
-## 🗄️ Solución de problemas de conexión a MongoDB Atlas
-
-Si el backend no se conecta a la base de datos Atlas, revisa lo siguiente:
-
-1. **Usuario y contraseña:**  
-   Verifica que el usuario y la contraseña en tu URI sean correctos y tengan permisos en Atlas.
-
-2. **IP permitida:**  
-   En Atlas, ve a "Network Access" y agrega tu IP pública o permite acceso desde cualquier IP (`0.0.0.0/0`).
-
-3. **URI en `.env`:**  
-   La variable `MONGODB_URI` debe tener la URI de Atlas, sin espacios ni caracteres extra.
-
-4. **Prueba la URI en MongoDB Compass:**  
-   Si no conecta en Compass, revisa el mensaje de error para identificar si es problema de autenticación o red.
-
-5. **Reinicia el backend después de cualquier cambio en `.env`.**
-
-6. **Revisa los logs del backend:**  
-   Si ves `bad auth : authentication failed`, revisa usuario/contraseña y permisos en Atlas.
 
 ---
 

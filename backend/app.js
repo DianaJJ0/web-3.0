@@ -45,13 +45,11 @@ mongoose
     process.exit(1);
   });
 
-
 // Servir archivos estáticos y configurar motor de vistas
-app.use(express.static(path.join(__dirname, "../../views")));
+app.use(express.static(path.join(__dirname, "../views")));
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "../../views"));
-app.use("/assets", express.static(path.join(__dirname, "../../views/assets")));
-
+app.set("views", path.join(__dirname, "../views"));
+app.use("/assets", express.static(path.join(__dirname, "../views/assets")));
 
 // Rutas principales
 const userRoutes = require("./routes/usuarios");
@@ -60,7 +58,6 @@ const expertosRoutes = require("./routes/expertos");
 app.use("/api/usuarios", userRoutes);
 app.use("/api/categorias", categoriasRoutes);
 app.use("/api/expertos", expertosRoutes);
-
 
 // Rutas para vistas EJS
 app.get("/", (req, res) => res.render("index"));
@@ -127,4 +124,5 @@ app.listen(PORT, () => {
   console.log(` Accede a la aplicación en: http://localhost:${PORT}`);
 });
 
+module.exports = app;
 module.exports = app;

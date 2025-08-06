@@ -9,27 +9,15 @@ ServiTech es una plataforma web para conectar usuarios con expertos en tecnolog�
 ```
 SERVITECH1/
 ├── backend/
-│   ├── src/
-│   │   ├── config/           # Configuración de base de datos y entorno
-│   │   ├── models/           # Modelos Mongoose (usuarios, expertos, categorías)
-│   │   ├── routes/           # Rutas API REST (usuarios, expertos, categorías, pagos)
-│   │   └── app.js            # Servidor Express principal
-│   ├── .env                  # Variables de entorno (MongoDB, JWT, puerto, etc.)
-│   ├── .env.example          # Ejemplo de configuración de entorno
-│   ├── inicializar.js        # Script para datos iniciales (categorías, usuarios demo)
-│   ├── package.json          # Dependencias Node.js
-│
-├── views/
-│   ├── assets/
-│   │   ├── css/              # Estilos CSS
-│   │   ├── js/               # Scripts JS
-│   │   ├── img/              # Imágenes y multimedia
-│   ├── admin/                # Vistas y recursos del panel de administración
-│   ├── componentes/          # Componentes EJS reutilizables (header, footer, navbar)
-│   ├── *.ejs                 # Vistas principales (login, registro, index, expertos, calendario, pagos, etc.)
-│
-├── README.md                 # Documentación
-└── install_windows.bat       # Instalador rápido para Windows
+│   ├── config/           # Configuración de base de datos y entorno
+│   ├── models/          # Modelos Mongoose
+│   ├── routes/          # Rutas API REST
+│   ├── services/        # Servicios (email, etc)
+│   ├── controllers/     # Controladores
+│   ├── app.js          # Servidor Express principal
+│   ├── .env            # Variables de entorno
+│   ├── package.json    # Dependencias
+│   └── inicializar.js  # Script para datos iniciales
 ```
 
 ---
@@ -71,16 +59,16 @@ nano .env
 node inicializar.js
 
 # Inicia el servidor backend
-node src/app.js
+node app.js
 # O en modo desarrollo con reinicio automático:
-npx nodemon src/app.js
+npx nodemon app.js
 ```
 
 #### Instalar nodemon globalmente (opcional)
 
 ```bash
 npm install -g nodemon
-nodemon src/app.js
+nodemon app.js
 ```
 
 ---
@@ -110,17 +98,18 @@ npm install
 node inicializar.js
 
 # Inicia el servidor backend
-node src/app.js
+node app.js
 # O en modo desarrollo con reinicio automático:
-npx nodemon src/app.js
+npx nodemon app.js
 ```
 
 #### Instalar nodemon globalmente (opcional)
 
 ```powershell
 npm install -g nodemon
-nodemon src/app.js
+nodemon app.js
 ```
+
 ---
 
 ### 🗄️ Iniciar la base de datos con MongoDB Atlas y Compass en Linux
@@ -144,11 +133,11 @@ nodemon src/app.js
 - Inicializar datos de prueba:
   `node inicializar.js`
 - Iniciar servidor backend:
-  `node src/app.js`
+  `node app.js`
 - Iniciar servidor con nodemon (desarrollo):
-  `npx nodemon src/app.js`
+  `npx nodemon app.js`
   o si está instalado globalmente:
-  `nodemon src/app.js`
+  `nodemon app.js`
 
 ---
 
@@ -156,7 +145,7 @@ nodemon src/app.js
 
 Abre tu navegador y visita:
 
-- http://localhost:3001/           (Landing page)
+- http://localhost:3001/ (Landing page)
 - http://localhost:3001/admin/admin.html (Panel de administración)
 
 ---
@@ -227,4 +216,3 @@ Abre tu navegador y visita `http://localhost:3001/`.
 Instala nodemon con `npm install -g nodemon` y ejecuta `nodemon src/app.js` para reinicio automático del servidor al hacer cambios.
 
 ---
-

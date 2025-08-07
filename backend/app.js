@@ -1,15 +1,3 @@
-// Ruta para editar perfil de experto (debe ir después de la configuración de vistas y sesiones)
-app.get("/editar-perfil-experto", async (req, res) => {
-  if (!req.session || !req.session.usuarioId) {
-    return res.redirect("/login");
-  }
-  try {
-    const usuario = await Usuario.findById(req.session.usuarioId);
-    res.render("editar-perfil-experto", { usuario });
-  } catch (err) {
-    res.status(500).send("Error al cargar el formulario de edición");
-  }
-});
 require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");

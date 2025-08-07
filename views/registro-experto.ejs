@@ -91,77 +91,17 @@
 
                 <!-- Horarios Múltiples -->
                 <div class="form-group">
-                  <label>Disponibilidad Horaria</label>
-                  <div id="horarios-container">
-                    <!-- Primer horario -->
-                    <div class="horario-item">
-                      <div class="form-row">
-                        <div class="form-group compact">
-                          <label>Día</label>
-                          <select name="horarios[0][dia]" required>
-                            <option value="Lunes">Lunes</option>
-                            <option value="Martes">Martes</option>
-                            <option value="Miércoles">Miércoles</option>
-                            <option value="Jueves">Jueves</option>
-                            <option value="Viernes">Viernes</option>
-                            <option value="Sábado">Sábado</option>
-                            <option value="Domingo">Domingo</option>
-                          </select>
-                        </div>
-
-                        <div class="form-group compact">
-                          <label>Hora inicio</label>
-                          <select name="horarios[0][inicio]" required>
-                            <% for(let h=8; h <=20; h++) { %>
-                              <option value="<%= h %>:00">
-                                <%= h %>:00 <%= h < 12 ? 'AM' : 'PM' %>
-                              </option>
-                              <% if(h < 20) { %>
-                                <option value="<%= h %>:30">
-                                  <%= h %>:30 <%= h < 12 ? 'AM' : 'PM' %>
-                                </option>
-                                <% } %>
-                                  <% } %>
-                          </select>
-                        </div>
-
-                        <div class="form-group compact">
-                          <label>Hora fin</label>
-                          <select name="horarios[0][fin]" required>
-                            <% for(let h=9; h <=21; h++) { %>
-                              <option value="<%= h %>:00">
-                                <%= h %>:00 <%= h < 12 ? 'AM' : 'PM' %>
-                              </option>
-                              <% if(h < 21) { %>
-                                <option value="<%= h %>:30">
-                                  <%= h %>:30 <%= h < 12 ? 'AM' : 'PM' %>
-                                </option>
-                                <% } %>
-                                  <% } %>
-                          </select>
-                        </div>
-
-                        <div class="form-group compact">
-                          <label>&nbsp;</label>
-                          <button type="button" class="btn-remove-horario" disabled>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button type="button" id="add-horario" class="btn-add-horario">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                    </svg>
-                    Añadir otro horario
-                  </button>
+                  <label for="diasDisponibles">Días disponibles</label>
+                  <select id="diasDisponibles" name="diasDisponibles" multiple required style="min-height: 80px;">
+                    <option value="Lunes">Lunes</option>
+                    <option value="Martes">Martes</option>
+                    <option value="Miércoles">Miércoles</option>
+                    <option value="Jueves">Jueves</option>
+                    <option value="Viernes">Viernes</option>
+                    <option value="Sábado">Sábado</option>
+                    <option value="Domingo">Domingo</option>
+                  </select>
+                  <p class="form-hint">Selecciona uno o varios días en los que puedes dar asesorías</p>
                 </div>
 
                 <!-- Tarifas -->
@@ -260,6 +200,7 @@
                     // Envío del formulario
                     const form = document.getElementById('registroExpertoForm');
                     const submitBtn = document.getElementById('submitExperto');
+                    const diasDisponiblesSelect = document.getElementById('diasDisponibles');
                     if (form && submitBtn) {
                       submitBtn.addEventListener('click', async function () {
                         // Convertir selects múltiples a string separados por coma
@@ -271,10 +212,15 @@
                           if (opt.selected) opt.setAttribute('selected', 'selected');
                           else opt.removeAttribute('selected');
                         });
+                        Array.from(diasDisponiblesSelect.options).forEach(opt => {
+                          if (opt.selected) opt.setAttribute('selected', 'selected');
+                          else opt.removeAttribute('selected');
+                        });
                         const formData = new FormData(form);
                         // Unir seleccionados en string para backend legacy
                         formData.set('categorias', Array.from(categoriasSelect.selectedOptions).map(o => o.value).join(','));
                         formData.set('skills', Array.from(skillsSelect.selectedOptions).map(o => o.value).join(','));
+                        formData.set('diasDisponibles', Array.from(diasDisponiblesSelect.selectedOptions).map(o => o.value).join(','));
                         try {
                           const response = await fetch('/registro-experto', {
                             method: 'POST',

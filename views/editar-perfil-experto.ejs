@@ -226,7 +226,8 @@
         <div class="form-row-compact">
           <div class="form-group-compact">
             <label for="categorias">Categorías</label>
-            <select id="categorias" name="categorias" class="form-control-compact" multiple required style="min-height: 80px;">
+            <select id="categorias" name="categorias" class="form-control-compact" multiple required
+              style="min-height: 80px;">
               <!-- Opciones dinámicas -->
             </select>
             <p class="form-hint">Selecciona una o varias categorías tecnológicas</p>
@@ -246,9 +247,17 @@
         <div class="form-row-compact">
           <div class="form-group-compact">
             <label for="dias_disponibles">Días disponibles</label>
-            <input type="text" id="dias_disponibles" name="dias_disponibles" class="form-control-compact"
-              value="<%= usuario?.experto?.horario?.dias_disponibles ? usuario.experto.horario.dias_disponibles.join(', ') : '' %>"
-              placeholder="Ej: Lunes, Miércoles, Viernes">
+            <select id="dias_disponibles" name="dias_disponibles" class="form-control-compact" multiple required
+              style="min-height: 80px;">
+              <option value="Lunes">Lunes</option>
+              <option value="Martes">Martes</option>
+              <option value="Miércoles">Miércoles</option>
+              <option value="Jueves">Jueves</option>
+              <option value="Viernes">Viernes</option>
+              <option value="Sábado">Sábado</option>
+              <option value="Domingo">Domingo</option>
+            </select>
+            <p class="form-hint">Selecciona uno o varios días en los que puedes dar asesorías</p>
           </div>
 
           <div class="form-group-compact">
@@ -314,7 +323,7 @@
 
           // Poblar categorías
           const categoriasSelect = document.getElementById('categorias');
-          const categoriasActuales = <%= JSON.stringify(usuario?.experto?.categorias ? usuario.experto.categorias.map(c=>c.nombre) : []) %>;
+          var categoriasActuales = JSON.parse('<%- JSON.stringify(usuario && usuario.experto && usuario.experto.categorias ? usuario.experto.categorias.map(function(c){return c.nombre;}) : []) %>');
           fetch('/api/categorias')
             .then(res => res.json())
             .then(data => {
@@ -329,7 +338,7 @@
 
           // Poblar habilidades sugeridas
           const skillsSelect = document.getElementById('skills');
-          const skillsActuales = <%= JSON.stringify(usuario?.experto?.skills || []) %>;
+          var skillsActuales = JSON.parse('<%- JSON.stringify(usuario && usuario.experto && usuario.experto.skills ? usuario.experto.skills : []) %>');
           fetch('/api/skills')
             .then(res => res.json())
             .then(data => {
@@ -382,6 +391,12 @@
           const form = document.getElementById('form-editar-experto');
           const submitBtn = document.getElementById('submitEditarExperto');
           if (form && submitBtn) {
+            // Preseleccionar días disponibles
+            const diasDisponiblesSelect = document.getElementById('dias_disponibles');
+            const diasActuales = JSON.parse('<%- JSON.stringify((usuario && usuario.experto && usuario.experto.horario && usuario.experto.horario.dias_disponibles) ? usuario.experto.horario.dias_disponibles : []) %>');
+            Array.from(diasDisponiblesSelect.options).forEach(opt => {
+              if (diasActuales.includes(opt.value)) opt.selected = true;
+            });
             submitBtn.addEventListener('click', async function () {
               // Convertir selects múltiples a string separados por coma
               Array.from(categoriasSelect.options).forEach(opt => {
@@ -392,9 +407,14 @@
                 if (opt.selected) opt.setAttribute('selected', 'selected');
                 else opt.removeAttribute('selected');
               });
+              Array.from(diasDisponiblesSelect.options).forEach(opt => {
+                if (opt.selected) opt.setAttribute('selected', 'selected');
+                else opt.removeAttribute('selected');
+              });
               const formData = new FormData(form);
               formData.set('categorias', Array.from(categoriasSelect.selectedOptions).map(o => o.value).join(','));
               formData.set('skills', Array.from(skillsSelect.selectedOptions).map(o => o.value).join(','));
+              formData.set('dias_disponibles', Array.from(diasDisponiblesSelect.selectedOptions).map(o => o.value).join(','));
               try {
                 const response = await fetch('/editar-perfil-experto', {
                   method: 'POST',

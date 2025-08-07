@@ -31,7 +31,7 @@ const usuarioSchema = new Schema(
     experto: {
       especialidad: String,
       descripcion: String,
-      categorias: [{ nombre: String, descripcion: String }],
+      categorias: [{ nombre: String, descripcion: String, _id: false }],
       precio: Number,
       skills: [String],
       activo: { type: Boolean, default: true },

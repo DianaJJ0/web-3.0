@@ -234,7 +234,44 @@ app.post("/editar-perfil-experto", formidable(), async (req, res) => {
       hora_fin: req.fields.hora_fin || "",
     };
     usuario.experto.precio = req.fields.precio;
-    usuario.experto.datosBancarios = req.fields.datosBancarios;
+
+    // Procesar datos bancarios (puede ser JSON o string)
+    let datosBancariosProcessed = req.fields.datosBancarios;
+    console.log("Datos bancarios recibidos:", req.fields.datosBancarios);
+    console.log("Tipo de datos bancarios:", typeof req.fields.datosBancarios);
+
+    try {
+      if (
+        typeof req.fields.datosBancarios === "string" &&
+        req.fields.datosBancarios.startsWith("{")
+      ) {
+        datosBancariosProcessed = JSON.parse(req.fields.datosBancarios);
+        console.log("Datos bancarios parseados:", datosBancariosProcessed);
+
+        // Mantener el estado de verificación existente si ya estaba verificado
+        if (
+          usuario.experto.datosBancarios &&
+          typeof usuario.experto.datosBancarios === "object" &&
+          usuario.experto.datosBancarios.verificado
+        ) {
+          datosBancariosProcessed.verificado = true;
+          console.log("Manteniendo estado verificado: true");
+        }
+      } else if (typeof req.fields.datosBancarios === "string") {
+        // Formato antiguo - mantener como string
+        datosBancariosProcessed = req.fields.datosBancarios;
+        console.log("Usando formato antiguo como string");
+      }
+    } catch (parseError) {
+      console.log(
+        "Error parsing datosBancarios in edit, using as string:",
+        parseError
+      );
+      datosBancariosProcessed = req.fields.datosBancarios;
+    }
+
+    console.log("Datos bancarios finales a guardar:", datosBancariosProcessed);
+    usuario.experto.datosBancarios = datosBancariosProcessed;
     await usuario.save();
     res.redirect("/perfil-experto");
   } catch (err) {

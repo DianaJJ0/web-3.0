@@ -211,6 +211,29 @@ router.post("/", async (req, res) => {
       return res.redirect("/perfil-experto");
     }
 
+    // Procesar datos bancarios
+    let datosBancariosProcessed = datosBancarios;
+    try {
+      if (
+        typeof datosBancarios === "string" &&
+        datosBancarios.startsWith("{")
+      ) {
+        datosBancariosProcessed = JSON.parse(datosBancarios);
+      } else if (typeof datosBancarios === "string") {
+        // Compatibilidad con formato antiguo
+        datosBancariosProcessed = {
+          informacion: datosBancarios,
+          verificado: false,
+        };
+      }
+    } catch (parseError) {
+      console.log("Error parsing datosBancarios, using as string:", parseError);
+      datosBancariosProcessed = {
+        informacion: datosBancarios,
+        verificado: false,
+      };
+    }
+
     // Actualizar datos de experto
     usuario.es_experto = true;
     usuario.experto = {
@@ -229,7 +252,7 @@ router.post("/", async (req, res) => {
         hora_fin,
       },
       fechaRegistro: new Date(),
-      datosBancarios,
+      datosBancarios: datosBancariosProcessed,
     };
     await usuario.save();
     res.render("registro-experto", {
@@ -237,6 +260,7 @@ router.post("/", async (req, res) => {
       email: usuario.email,
     });
   } catch (err) {
+    console.error("Error registering expert:", err);
     res.status(500).render("registro-experto", {
       error: "Error al registrar como experto.",
     });

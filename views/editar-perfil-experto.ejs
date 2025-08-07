@@ -114,6 +114,53 @@
       resize: vertical;
     }
 
+    /* Estilos específicos para selects múltiples */
+    select.form-control-compact {
+      background-color: var(--input-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+    }
+
+    select.form-control-compact option {
+      background-color: var(--input-bg);
+      color: var(--text-color);
+      padding: 0.5rem;
+    }
+
+    select.form-control-compact option:checked {
+      background-color: var(--primary-color);
+      color: var(--text-color);
+    }
+
+    select.form-control-compact option:hover {
+      background-color: var(--primary-color);
+      color: var(--text-color);
+    }
+
+    /* Mejorar contraste para categorías y skills */
+    select[multiple] {
+      background-color: var(--input-bg) !important;
+      color: var(--text-color) !important;
+      border: 1px solid var(--border-color) !important;
+    }
+
+    select[multiple] option {
+      background-color: var(--input-bg) !important;
+      color: var(--text-color) !important;
+      padding: 8px !important;
+      margin: 2px 0 !important;
+    }
+
+    select[multiple] option:checked {
+      background-color: var(--primary-color) !important;
+      color: white !important;
+    }
+
+    select[multiple] option:hover {
+      background-color: var(--accent-color) !important;
+      color: white !important;
+    }
+
     /* Grupo de campos en fila */
     .form-row-compact {
       display: flex;
@@ -196,11 +243,244 @@
         padding: 0.65rem;
       }
     }
+
+    /* Estilos para sección de datos bancarios */
+    .form-section {
+      background: var(--input-bg);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border: 1px solid var(--border-color);
+    }
+
+    .section-title {
+      color: var(--text-color);
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+    }
+
+    .section-title i {
+      color: var(--accent-color);
+      width: 1.25rem;
+      text-align: center;
+    }
+
+    .section-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
+
+    .info-card {
+      background: rgba(58, 142, 255, 0.1);
+      border: 1px solid var(--primary-color);
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .info-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary-color);
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .info-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .info-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .info-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-list li i {
+      color: var(--accent-color);
+      margin-top: 0.1rem;
+      flex-shrink: 0;
+    }
+
+    .form-hint {
+      color: var(--text-light);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      font-style: italic;
+    }
+
+    /* Toggle button for password field */
+    .toggle-password-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 0.25rem;
+      transition: var(--transition);
+    }
+
+    .toggle-password-btn:hover {
+      color: var(--primary-color);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .form-section {
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+
+      .section-title {
+        font-size: 1rem;
+      }
+
+      .info-card {
+        padding: 0.75rem;
+      }
+    }
+
+    /* Estilos específicos para mejorar visibilidad de listas */
+    #categorias,
+    #skills,
+    #dias_disponibles {
+      background-color: var(--input-bg) !important;
+      color: var(--text-color) !important;
+      border: 1px solid var(--border-color) !important;
+      font-family: 'Inter', sans-serif !important;
+      font-size: 0.95rem !important;
+      font-weight: 500 !important;
+    }
+
+    #categorias option,
+    #skills option,
+    #dias_disponibles option {
+      background-color: var(--input-bg) !important;
+      color: var(--text-color) !important;
+      padding: 8px 12px !important;
+      border: none !important;
+      font-size: 0.9rem !important;
+      font-weight: 500 !important;
+    }
+
+    #categorias option:checked,
+    #skills option:checked,
+    #dias_disponibles option:checked {
+      background-color: var(--primary-color) !important;
+      color: white !important;
+      font-weight: bold !important;
+    }
+
+    #categorias option:hover,
+    #skills option:hover,
+    #dias_disponibles option:hover {
+      background-color: var(--accent-color) !important;
+      color: white !important;
+    }
+
+    /* Forzar contraste para TODOS los selects */
+    select.form-control-compact {
+      -webkit-text-fill-color: var(--text-color) !important;
+      color: var(--text-color) !important;
+    }
+
+    /* Forzar visibilidad con selectores muy específicos */
+    select#categorias,
+    select#skills,
+    select#dias_disponibles {
+      background-color: #2a2a2a !important;
+      color: #ffffff !important;
+      border: 1px solid #404040 !important;
+      font-size: 14px !important;
+      -webkit-appearance: none !important;
+      -moz-appearance: none !important;
+    }
+
+    select#categorias option,
+    select#skills option,
+    select#dias_disponibles option {
+      background-color: #2a2a2a !important;
+      color: #ffffff !important;
+      padding: 8px 12px !important;
+      font-size: 14px !important;
+      border: none !important;
+    }
+
+    select#categorias option:checked,
+    select#skills option:checked,
+    select#dias_disponibles option:checked {
+      background-color: #3a8eff !important;
+      color: #ffffff !important;
+      font-weight: bold !important;
+    }
+
+    select#categorias option:hover,
+    select#skills option:hover,
+    select#dias_disponibles option:hover {
+      background-color: #12d8fa !important;
+      color: #ffffff !important;
+    }
+
+    /* Webkit específico para forzar texto visible */
+    select#categorias,
+    select#skills,
+    select#dias_disponibles {
+      -webkit-text-fill-color: #ffffff !important;
+    }
+
+    select#categorias option,
+    select#skills option,
+    select#dias_disponibles option {
+      -webkit-text-fill-color: #ffffff !important;
+    }
   </style>
 </head>
 
 <body>
   <main class="perfil-experto-main">
+    <script>
+      // Si hay datos bancarios antiguos en localStorage, precargar en el formulario
+      document.addEventListener('DOMContentLoaded', function () {
+        var datosMigrar = localStorage.getItem('datosBancariosMigrar');
+        if (datosMigrar) {
+          try {
+            var db = JSON.parse(datosMigrar);
+            if (db && typeof db === 'object') {
+              if (db.banco) document.getElementById('banco').value = db.banco;
+              if (db.tipoCuenta) document.getElementById('tipoCuenta').value = db.tipoCuenta;
+              if (db.numeroCuenta) document.getElementById('numeroCuenta').value = db.numeroCuenta;
+              if (db.titular) document.getElementById('titular').value = db.titular;
+              if (db.tipoDocumento) document.getElementById('tipoDocumento').value = db.tipoDocumento;
+              if (db.numeroDocumento) document.getElementById('numeroDocumento').value = db.numeroDocumento;
+              if (db.telefonoContacto) document.getElementById('telefonoContacto').value = db.telefonoContacto;
+            }
+          } catch (e) { }
+          localStorage.removeItem('datosBancariosMigrar');
+        }
+      });
+    </script>
     <section class="perfil-experto-section">
       <div class="form-header">
         <h1><i class="fas fa-user-edit"></i> Editar Perfil de Experto</h1>
@@ -227,7 +507,7 @@
           <div class="form-group-compact">
             <label for="categorias">Categorías</label>
             <select id="categorias" name="categorias" class="form-control-compact" multiple required
-              style="min-height: 80px;">
+              style="min-height: 80px; background-color: #2a2a2a !important; color: #ffffff !important; border: 1px solid #404040 !important; font-size: 14px !important;">
               <!-- Opciones dinámicas -->
             </select>
             <p class="form-hint">Selecciona una o varias categorías tecnológicas</p>
@@ -235,7 +515,8 @@
 
           <div class="form-group-compact">
             <label for="skills">Habilidades</label>
-            <select id="skills" name="skills" class="form-control-compact" multiple style="min-height: 80px;">
+            <select id="skills" name="skills" class="form-control-compact" multiple
+              style="min-height: 80px; background-color: #2a2a2a !important; color: #ffffff !important; border: 1px solid #404040 !important; font-size: 14px !important;">
               <!-- Opciones dinámicas -->
             </select>
             <input type="text" id="nuevaSkill" placeholder="Agregar nueva habilidad tecnológica y presiona Enter">
@@ -248,14 +529,28 @@
           <div class="form-group-compact">
             <label for="dias_disponibles">Días disponibles</label>
             <select id="dias_disponibles" name="dias_disponibles" class="form-control-compact" multiple required
-              style="min-height: 80px;">
-              <option value="Lunes">Lunes</option>
-              <option value="Martes">Martes</option>
-              <option value="Miércoles">Miércoles</option>
-              <option value="Jueves">Jueves</option>
-              <option value="Viernes">Viernes</option>
-              <option value="Sábado">Sábado</option>
-              <option value="Domingo">Domingo</option>
+              style="min-height: 80px; background-color: #2a2a2a !important; color: #ffffff !important; border: 1px solid #404040 !important; font-size: 14px !important;">
+              <option value="Lunes"
+                style="background-color: #2a2a2a !important; color: #ffffff !important; padding: 8px 12px !important;">
+                Lunes</option>
+              <option value="Martes"
+                style="background-color: #2a2a2a !important; color: #ffffff !important; padding: 8px 12px !important;">
+                Martes</option>
+              <option value="Miércoles"
+                style="background-color: #2a2a2a !important; color: #ffffff !important; padding: 8px 12px !important;">
+                Miércoles</option>
+              <option value="Jueves"
+                style="background-color: #2a2a2a !important; color: #ffffff !important; padding: 8px 12px !important;">
+                Jueves</option>
+              <option value="Viernes"
+                style="background-color: #2a2a2a !important; color: #ffffff !important; padding: 8px 12px !important;">
+                Viernes</option>
+              <option value="Sábado"
+                style="background-color: #2a2a2a !important; color: #ffffff !important; padding: 8px 12px !important;">
+                Sábado</option>
+              <option value="Domingo"
+                style="background-color: #2a2a2a !important; color: #ffffff !important; padding: 8px 12px !important;">
+                Domingo</option>
             </select>
             <p class="form-hint">Selecciona uno o varios días en los que puedes dar asesorías</p>
           </div>
@@ -286,12 +581,114 @@
           </div>
         </div>
 
-        <!-- Datos bancarios -->
-        <div class="form-group-compact">
-          <label for="datosBancarios">Datos bancarios</label>
-          <input type="text" id="datosBancarios" name="datosBancarios" class="form-control-compact"
-            value="<%= usuario?.experto?.datosBancarios || '' %>"
-            placeholder="Información para recibir pagos (ej: cuenta bancaria, PayPal)">
+        <!-- Datos Bancarios -->
+        <div class="form-section" id="datos-bancarios">
+          <h3 class="section-title">
+            <i class="fas fa-university"></i>
+            Datos Bancarios para Pagos
+          </h3>
+          <p class="section-subtitle">Información necesaria para recibir pagos por tus asesorías</p>
+
+          <div class="form-row-compact">
+            <div class="form-group-compact">
+              <label for="banco">Banco *</label>
+              <select id="banco" name="banco" class="form-control-compact" required>
+                <option value="">Selecciona tu banco</option>
+                <option value="Banco de Bogotá">Banco de Bogotá</option>
+                <option value="Bancolombia">Bancolombia</option>
+                <option value="Banco de Occidente">Banco de Occidente</option>
+                <option value="BBVA Colombia">BBVA Colombia</option>
+                <option value="Banco Popular">Banco Popular</option>
+                <option value="Banco Caja Social">Banco Caja Social</option>
+                <option value="Banco AV Villas">Banco AV Villas</option>
+                <option value="Banco Agrario">Banco Agrario</option>
+                <option value="Davivienda">Davivienda</option>
+                <option value="Banco Falabella">Banco Falabella</option>
+                <option value="Scotiabank Colpatria">Scotiabank Colpatria</option>
+                <option value="Banco Santander">Banco Santander</option>
+                <option value="Banco GNB Sudameris">Banco GNB Sudameris</option>
+                <option value="Banco Itaú">Banco Itaú</option>
+                <option value="Banco Pichincha">Banco Pichincha</option>
+                <option value="Banco Cooperativo Coopcentral">Banco Cooperativo Coopcentral</option>
+                <option value="Nequi">Nequi</option>
+                <option value="Daviplata">Daviplata</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+
+            <div class="form-group-compact">
+              <label for="tipoCuenta">Tipo de cuenta *</label>
+              <select id="tipoCuenta" name="tipoCuenta" class="form-control-compact" required>
+                <option value="">Selecciona el tipo</option>
+                <option value="Cuenta de Ahorros">Cuenta de Ahorros</option>
+                <option value="Cuenta Corriente">Cuenta Corriente</option>
+                <option value="Cuenta de Nómina">Cuenta de Nómina</option>
+                <option value="Cuenta Digital">Cuenta Digital</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-compact">
+            <div class="form-group-compact">
+              <label for="numeroCuenta">Número de cuenta *</label>
+              <div style="position: relative;">
+                <input type="password" id="numeroCuenta" name="numeroCuenta" class="form-control-compact" required
+                  placeholder="Número de cuenta bancaria" pattern="[0-9\-]*" title="Solo números y guiones"
+                  style="padding-right: 40px;">
+                <button type="button" id="toggleAccountNumber" class="toggle-password-btn">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <p class="form-hint">Número completo de tu cuenta bancaria</p>
+            </div>
+
+            <div class="form-group-compact">
+              <label for="titular">Titular de la cuenta *</label>
+              <input type="text" id="titular" name="titular" class="form-control-compact" required
+                placeholder="Nombre completo del titular" title="Nombre tal como aparece en la cuenta bancaria">
+              <p class="form-hint">Debe coincidir exactamente con el nombre en la cuenta</p>
+            </div>
+          </div>
+
+          <div class="form-row-compact">
+            <div class="form-group-compact">
+              <label for="tipoDocumento">Tipo de documento *</label>
+              <select id="tipoDocumento" name="tipoDocumento" class="form-control-compact" required>
+                <option value="">Selecciona el tipo</option>
+                <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
+                <option value="Cédula de Extranjería">Cédula de Extranjería</option>
+                <option value="Pasaporte">Pasaporte</option>
+                <option value="NIT">NIT (Persona Jurídica)</option>
+              </select>
+            </div>
+
+            <div class="form-group-compact">
+              <label for="numeroDocumento">Número de documento *</label>
+              <input type="text" id="numeroDocumento" name="numeroDocumento" class="form-control-compact" required
+                placeholder="Número de identificación" pattern="[0-9\-]*" title="Número del documento de identidad">
+              <p class="form-hint">Documento de identidad del titular</p>
+            </div>
+          </div>
+
+          <div class="form-group-compact">
+            <label for="telefonoContacto">Teléfono de contacto</label>
+            <input type="tel" id="telefonoContacto" name="telefonoContacto" class="form-control-compact"
+              placeholder="+57 300 123 4567" title="Teléfono de contacto para verificación de pagos">
+            <p class="form-hint">Opcional: Teléfono para contacto sobre pagos</p>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-header">
+              <i class="fas fa-info-circle"></i>
+              <strong>Información importante sobre pagos</strong>
+            </div>
+            <ul class="info-list">
+              <li><i class="fas fa-check"></i> Los pagos se procesan cada 15 días</li>
+              <li><i class="fas fa-check"></i> Se requiere verificación de cuenta antes del primer pago</li>
+              <li><i class="fas fa-check"></i> Los datos bancarios pueden editarse desde tu perfil</li>
+              <li><i class="fas fa-check"></i> Mantenemos seguros tus datos financieros</li>
+            </ul>
+          </div>
         </div>
 
         <!-- Acciones -->
@@ -306,6 +703,68 @@
       </form>
       <script>
         document.addEventListener('DOMContentLoaded', async function () {
+          // Validaciones en tiempo real para datos bancarios
+          const numeroCuentaInput = document.getElementById('numeroCuenta');
+          const numeroDocumentoInput = document.getElementById('numeroDocumento');
+          const telefonoInput = document.getElementById('telefonoContacto');
+          const titularInput = document.getElementById('titular');
+
+          // Validar solo números en número de cuenta
+          numeroCuentaInput.addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9\-]/g, '');
+            if (this.value.length < 10) {
+              this.style.borderColor = '#ffc107';
+            } else {
+              this.style.borderColor = 'var(--primary-color)';
+            }
+          });
+
+          // Validar solo números en documento
+          numeroDocumentoInput.addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9\-]/g, '');
+          });
+
+          // Validar formato de teléfono
+          telefonoInput.addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9+\-\s]/g, '');
+          });
+
+          // Capitalizar nombre del titular
+          titularInput.addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+            // Capitalizar primera letra de cada palabra
+            this.value = this.value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+          });
+
+          // Funcionalidad para mostrar/ocultar número de cuenta
+          const toggleBtn = document.getElementById('toggleAccountNumber');
+          if (toggleBtn) {
+            toggleBtn.addEventListener('click', function () {
+              const input = document.getElementById('numeroCuenta');
+              const icon = this.querySelector('i');
+
+              if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+              } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+              }
+            });
+          }
+
+          // Poblar datos bancarios existentes si los hay
+          <% if (usuario && usuario.experto && usuario.experto.datosBancarios && typeof usuario.experto.datosBancarios === 'object') { %>
+            <% const db = usuario.experto.datosBancarios; %>
+            <% if (db.banco) { %> document.getElementById('banco').value = '<%= db.banco %>';<% } %>
+            <% if (db.tipoCuenta) { %> document.getElementById('tipoCuenta').value = '<%= db.tipoCuenta %>';<% } %>
+            <% if (db.numeroCuenta) { %> document.getElementById('numeroCuenta').value = '<%= db.numeroCuenta %>';<% } %>
+            <% if (db.titular) { %> document.getElementById('titular').value = '<%= db.titular %>';<% } %>
+            <% if (db.tipoDocumento) { %> document.getElementById('tipoDocumento').value = '<%= db.tipoDocumento %>';<% } %>
+            <% if (db.numeroDocumento) { %> document.getElementById('numeroDocumento').value = '<%= db.numeroDocumento %>';<% } %>
+            <% if (db.telefonoContacto) { %> document.getElementById('telefonoContacto').value = '<%= db.telefonoContacto %>';<% } %>
+          <% } %>
+
           // Poblar especialidades
           const especialidadSelect = document.getElementById('especialidad');
           const especialidadActual = `<%= usuario?.experto?.especialidad || '' %>`;
@@ -323,42 +782,99 @@
 
           // Poblar categorías
           const categoriasSelect = document.getElementById('categorias');
-          var categoriasActuales = JSON.parse('<%- JSON.stringify(usuario && usuario.experto && usuario.experto.categorias ? usuario.experto.categorias.map(function(c){return c.nombre;}) : []) %>');
+          var categoriasActuales = [];
+          try {
+            categoriasActuales = JSON.parse(decodeURIComponent('<%- encodeURIComponent(JSON.stringify((usuario && usuario.experto && usuario.experto.categorias) ? usuario.experto.categorias.map(function(c){return c.nombre;}) : [])) %>'));
+          } catch (e) {
+            categoriasActuales = [];
+          }
           fetch('/api/categorias')
             .then(res => res.json())
             .then(data => {
+              console.log('Categorías recibidas:', data);
+              if (!Array.isArray(data) || data.length === 0) {
+                console.warn('No se recibieron categorías desde el backend');
+              }
               data.forEach(c => {
                 const opt = document.createElement('option');
                 opt.value = c.nombre;
                 opt.textContent = c.nombre;
+                opt.style.backgroundColor = '#2a2a2a';
+                opt.style.color = '#ffffff';
+                opt.style.padding = '8px 12px';
+                opt.style.fontSize = '14px';
                 if (categoriasActuales.includes(c.nombre)) opt.selected = true;
                 categoriasSelect.appendChild(opt);
               });
+              setTimeout(() => {
+                categoriasSelect.style.backgroundColor = '#2a2a2a';
+                categoriasSelect.style.color = '#ffffff';
+                categoriasSelect.style.border = '1px solid #404040';
+                Array.from(categoriasSelect.options).forEach(option => {
+                  option.style.backgroundColor = '#2a2a2a';
+                  option.style.color = '#ffffff';
+                  option.style.padding = '8px 12px';
+                  option.style.fontSize = '14px';
+                });
+              }, 100);
+            })
+            .catch(err => {
+              console.error('Error al obtener categorías:', err);
             });
 
           // Poblar habilidades sugeridas
           const skillsSelect = document.getElementById('skills');
-          var skillsActuales = JSON.parse('<%- JSON.stringify(usuario && usuario.experto && usuario.experto.skills ? usuario.experto.skills : []) %>');
+          var skillsActuales = [];
+          try {
+            skillsActuales = JSON.parse(decodeURIComponent('<%- encodeURIComponent(JSON.stringify((usuario && usuario.experto && usuario.experto.skills) ? usuario.experto.skills : [])) %>'));
+          } catch (e) {
+            skillsActuales = [];
+          }
           fetch('/api/skills')
             .then(res => res.json())
             .then(data => {
+              console.log('Skills recibidas:', data);
+              if (!Array.isArray(data) || data.length === 0) {
+                console.warn('No se recibieron skills desde el backend');
+              }
               data.forEach(skill => {
                 const opt = document.createElement('option');
                 opt.value = skill.nombre;
                 opt.textContent = skill.nombre;
+                opt.style.backgroundColor = '#2a2a2a';
+                opt.style.color = '#ffffff';
+                opt.style.padding = '8px 12px';
+                opt.style.fontSize = '14px';
                 if (skillsActuales.includes(skill.nombre)) opt.selected = true;
                 skillsSelect.appendChild(opt);
               });
-              // Si hay skills actuales que no están en la lista, agregarlas
               skillsActuales.forEach(s => {
                 if (!Array.from(skillsSelect.options).some(opt => opt.value === s)) {
                   const opt = document.createElement('option');
                   opt.value = s;
                   opt.textContent = s;
+                  opt.style.backgroundColor = '#2a2a2a';
+                  opt.style.color = '#ffffff';
+                  opt.style.padding = '8px 12px';
+                  opt.style.fontSize = '14px';
                   opt.selected = true;
                   skillsSelect.appendChild(opt);
                 }
               });
+              setTimeout(() => {
+                skillsSelect.style.backgroundColor = '#2a2a2a';
+                skillsSelect.style.color = '#ffffff';
+                skillsSelect.style.border = '1px solid #404040';
+                Array.from(skillsSelect.options).forEach(option => {
+                  option.style.backgroundColor = '#2a2a2a';
+                  option.style.color = '#ffffff';
+                  option.style.padding = '8px 12px';
+                  option.style.fontSize = '14px';
+                });
+              }, 100);
+            })
+            .catch(err => {
+              console.error('Error al obtener skills:', err);
             });
 
           // Permitir agregar nuevas habilidades
@@ -375,6 +891,10 @@
                 const opt = document.createElement('option');
                 opt.value = val;
                 opt.textContent = val;
+                opt.style.backgroundColor = '#2a2a2a';
+                opt.style.color = '#ffffff';
+                opt.style.padding = '8px 12px';
+                opt.style.fontSize = '14px';
                 opt.selected = true;
                 skillsSelect.appendChild(opt);
               } else {
@@ -398,6 +918,24 @@
               if (diasActuales.includes(opt.value)) opt.selected = true;
             });
             submitBtn.addEventListener('click', async function () {
+              // Validar campos requeridos de datos bancarios
+              const requiredBankFields = ['banco', 'tipoCuenta', 'numeroCuenta', 'titular', 'tipoDocumento', 'numeroDocumento'];
+              let missingFields = [];
+
+              requiredBankFields.forEach(fieldName => {
+                const field = document.getElementById(fieldName);
+                if (!field.value.trim()) {
+                  missingFields.push(field.previousElementSibling.textContent.replace('*', ''));
+                }
+              });
+
+              if (missingFields.length > 0) {
+                alert('Por favor completa los siguientes campos obligatorios de datos bancarios:\n\n• ' + missingFields.join('\n• '));
+                // Hacer scroll a la sección de datos bancarios
+                document.getElementById('datos-bancarios').scrollIntoView({ behavior: 'smooth' });
+                return;
+              }
+
               // Convertir selects múltiples a string separados por coma
               Array.from(categoriasSelect.options).forEach(opt => {
                 if (opt.selected) opt.setAttribute('selected', 'selected');
@@ -411,10 +949,51 @@
                 if (opt.selected) opt.setAttribute('selected', 'selected');
                 else opt.removeAttribute('selected');
               });
+
               const formData = new FormData(form);
+
+              // Debug: listar todos los campos que se están enviando
+              console.log('=== CAMPOS DEL FORMULARIO ===');
+              for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+              }
+
               formData.set('categorias', Array.from(categoriasSelect.selectedOptions).map(o => o.value).join(','));
               formData.set('skills', Array.from(skillsSelect.selectedOptions).map(o => o.value).join(','));
               formData.set('dias_disponibles', Array.from(diasDisponiblesSelect.selectedOptions).map(o => o.value).join(','));
+
+              // Debug: verificar que los campos bancarios están presentes
+              console.log('=== VERIFICANDO CAMPOS BANCARIOS ===');
+              console.log('banco:', formData.get('banco'));
+              console.log('tipoCuenta:', formData.get('tipoCuenta'));
+              console.log('numeroCuenta:', formData.get('numeroCuenta'));
+              console.log('titular:', formData.get('titular'));
+
+              // Estructurar datos bancarios como JSON
+              let datosBancariosActuales = {};
+              try {
+                datosBancariosActuales = JSON.parse('<%- JSON.stringify((usuario && usuario.experto && usuario.experto.datosBancarios) || {}) %>');
+              } catch (e) {
+                try {
+                  datosBancariosActuales = JSON.parse(JSON.parse('<%- JSON.stringify((usuario && usuario.experto && usuario.experto.datosBancarios) || {}) %>'));
+                } catch (e2) {
+                  datosBancariosActuales = {};
+                }
+              }
+              const datosBancarios = {
+                banco: formData.get('banco'),
+                tipoCuenta: formData.get('tipoCuenta'),
+                numeroCuenta: formData.get('numeroCuenta'),
+                titular: formData.get('titular'),
+                tipoDocumento: formData.get('tipoDocumento'),
+                numeroDocumento: formData.get('numeroDocumento'),
+                telefonoContacto: formData.get('telefonoContacto') || '',
+                verificado: (datosBancariosActuales && datosBancariosActuales.verificado) || false
+              };
+
+              console.log('Enviando datos bancarios:', datosBancarios);
+              formData.set('datosBancarios', JSON.stringify(datosBancarios));
+
               try {
                 const response = await fetch('/editar-perfil-experto', {
                   method: 'POST',

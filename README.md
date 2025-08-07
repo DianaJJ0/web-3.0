@@ -1,166 +1,142 @@
 # 🚀 ServiTech Web 2.0
 
-ServiTech es una plataforma web para conectar usuarios con expertos en tecnología, permitiendo agendar asesorías, realizar pagos seguros, gestionar mensajería y administrar usuarios y expertos desde un panel de administración. El sistema incluye autenticación, videollamadas, pagos integrados y un flujo completo para clientes y expertos.
+Plataforma web para conectar usuarios con expertos en tecnología: agenda asesorías, paga seguro, chatea, administra usuarios y expertos, y gestiona todo desde un panel moderno y responsivo.
 
 ---
 
-## 📦 Estructura del Proyecto
+## � Estructura del Proyecto
 
 ```
 servitech-1 2.0/
 ├── backend/
-│   ├── config/           # Configuración de base de datos y entorno
-│   ├── models/           # Modelos Mongoose
-│   ├── routes/           # Rutas API REST
-│   ├── services/         # Servicios (email, etc)
-│   ├── controllers/      # Controladores
-│   ├── app.js            # Servidor Express principal
-│   ├── inicializar.js    # Script para datos iniciales
-│   ├── package.json      # Dependencias
-│   └── ...
-├── views/                # Vistas EJS y assets (css, js, img)
-│   ├── componentes/      # Header, footer, navbar, etc.
-│   ├── assets/           # Archivos estáticos (css, js, img)
-│   └── *.ejs             # Vistas principales y admin
+│   ├── app.js                # Servidor Express principal
+│   ├── inicializar.js        # Script para datos iniciales
+│   ├── config/
+│   │   └── database.js       # Configuración de conexión a MongoDB
+│   ├── controllers/          # (vacío, preparado para lógica de control)
+│   ├── models/
+│   │   ├── asesoria.js
+│   │   ├── categorias.js
+│   │   ├── mensajeria.js
+│   │   ├── models.js
+│   │   ├── notificacion.js
+│   │   ├── reseña.js
+│   │   └── usuario.js
+│   ├── routes/
+│   │   ├── categorias.js
+│   │   ├── expertos.js
+│   │   ├── registro-experto.js
+│   │   └── usuarios.js
+│   ├── scripts/
+│   │   └── usuarios-tools.js
+│   ├── services/
+│   │   ├── email.service.js
+│   │   └── test-email.js
+│   ├── package.json
+│   └── .env (no incluido)
+├── views/
+│   ├── admin/
+│   │   ├── admin-categorias.ejs
+│   │   ├── admin-configuracion.ejs
+│   │   ├── admin-expertos.ejs
+│   │   ├── admin-mensajes.ejs
+│   │   ├── admin-publicaciones.ejs
+│   │   ├── admin-usuarios.ejs
+│   │   └── admin.ejs
+│   ├── assets/
+│   │   ├── css/ (ver listado abajo)
+│   │   ├── img/ (logo, gifs, etc)
+│   │   └── js/ (ver listado abajo)
+│   ├── componentes/
+│   │   ├── footer.ejs
+│   │   ├── header.ejs
+│   │   └── navbar-admin.ejs
+│   ├── calendario.ejs
+│   ├── confirmacion-asesoria.ejs
+│   ├── contacto.ejs
+│   ├── editar-perfil-experto.ejs
+│   ├── expertos.ejs
+│   ├── index.ejs
+│   ├── login.ejs
+│   ├── mensajes.ejs
+│   ├── mis-asesorias.ejs
+│   ├── pasarela-pagos.ejs
+│   ├── perfil-experto.ejs
+│   ├── perfil.ejs
+│   ├── privacidad.ejs
+│   ├── recuperar-password.ejs
+│   ├── registro-experto.ejs
+│   ├── registro.ejs
+│   └── terminos.ejs
 └── README.md
 ```
 
 ---
 
-## 🖥️ Instalación y Uso en Otro PC
+## �️ Backend (Node.js + Express + MongoDB)
 
-### 1. Requisitos Previos
+- **Servidor:** `app.js` (Express)
+- **Modelos:** Mongoose (`models/`)
+- **Rutas API:**
+  - `/api/usuarios` (usuarios.js)
+  - `/api/categorias` (categorias.js)
+  - `/api/expertos` (expertos.js)
+  - `/registro-experto` (registro-experto.js)
+- **Servicios:** Email (`services/email.service.js`)
+- **Scripts:** Inicialización y utilidades (`inicializar.js`, `usuarios-tools.js`)
+- **Sesiones:** express-session, JWT
+- **Configuración:** `.env` (MONGODB_URI, JWT_SECRET, SESSION_SECRET, PORT)
+- **Dependencias principales:** express, mongoose, ejs, cors, dotenv, bcrypt, jsonwebtoken, nodemailer
 
-- **Node.js** v18 o superior
-- **MongoDB** v6 o superior (instalado y corriendo localmente)
-- **MongoDB Compass** (instalado)
-- **Git** (para clonar el repositorio)
-
----
-
-### 2. Instalación en Linux (Ubuntu/Debian)
-
-```bash
-# Instala dependencias del sistema
-sudo apt update && sudo apt install -y nodejs npm mongodb git
-
-# Clona el repositorio actualizado
-git clone https://github.com/DianaJJ0/web-3.0.git
-cd web-3.0/backend
-
-# Instala dependencias del backend
-npm install
-
-# Configura las variables de entorno
-cp .env.example .env
-nano .env
-# Ejemplo de configuración:
-# MONGODB_URI=mongodb://localhost:27017/servitech
-# JWT_SECRET=clave_secreta
-# SESSION_SECRET=otra_clave
-# PORT=3001
-
-# Inicializa datos básicos (opcional)
-node inicializar.js
-
-# Inicia el servidor backend
-node app.js
-# O en modo desarrollo con reinicio automático:
-npx nodemon app.js
-```
-
-#### Instalar nodemon globalmente (opcional)
+### Comandos útiles
 
 ```bash
-npm install -g nodemon
-nodemon app.js
-```
-
----
-
-### 3. Instalación en Windows 10/11
-
-```powershell
-# Instala Node.js, MongoDB y Git desde sus sitios oficiales
-
-# Clona el repositorio actualizado
-git clone https://github.com/DianaJJ0/web-3.0.git
-cd web-3.0/backend
-
-# Instala dependencias del backend
+# Instalar dependencias
+cd backend
 npm install
 
-# Configura las variables de entorno
-# Copia .env.example a .env y edítalo con Notepad o VS Code
-
-# Ejemplo:
-# MONGODB_URI=mongodb://localhost:27017/servitech
-# JWT_SECRET=clave_secreta
-# SESSION_SECRET=otra_clave
-# PORT=3001
-
-# Inicializa datos básicos (opcional)
+# Inicializar datos de prueba
 node inicializar.js
 
-# Inicia el servidor backend
+# Iniciar servidor
 node app.js
-# O en modo desarrollo con reinicio automático:
-npx nodemon app.js
-```
+# O en modo desarrollo (reinicio automático)
 
-#### Instalar nodemon globalmente (opcional)
-
-```powershell
-npm install -g nodemon
-nodemon app.js
 ```
 
 ---
 
-### 🗄️ Iniciar la base de datos con MongoDB Atlas y Compass en Linux
+## 🎨 Frontend (EJS + CSS + JS)
 
-1. Ingresa a [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) y crea una cuenta (si no tienes una).
-2. Crea un nuevo cluster gratuito y espera a que esté listo.
-3. En "Database Access", crea un usuario con contraseña y permisos de lectura/escritura.
-4. En "Network Access", agrega tu IP pública o permite acceso desde cualquier IP (`0.0.0.0/0`).
-5. Copia la URI de conexión del cluster (formato:
-   `mongodb+srv://dianacjj23:<db_password>@adso2873441.e4hnh5b.mongodb.net/servitech?retryWrites=true&w=majority`)
-6. Abre MongoDB Compass y pega la URI en el campo de conexión.
-7. Haz clic en "Connect" para conectarte y gestionar la base de datos.
-8. Actualiza la variable `MONGODB_URI` en tu archivo `.env` con la URI de Atlas.
+- **Vistas principales:**
+  - index.ejs, login.ejs, registro.ejs, perfil.ejs, perfil-experto.ejs, editar-perfil-experto.ejs, expertos.ejs, calendario.ejs, mis-asesorias.ejs, mensajes.ejs, pasarela-pagos.ejs, confirmacion-asesoria.ejs, contacto.ejs, terminos.ejs, privacidad.ejs, recuperar-password.ejs
+- **Panel de administración:**
+  - admin.ejs y vistas admin-\* (usuarios, expertos, mensajes, publicaciones, categorías, configuración)
+- **Componentes reutilizables:**
+  - header.ejs, footer.ejs, navbar-admin.ejs
+- **Assets:**
+  - **CSS:**
+    - admin-categoria.css, admin-components.css, admin-configuracion.css, Admin-expertos.css, admin-mensajes.css, admin-publicaciones.css, admin-responsive.css, admin-usuarios.css, admin.css, administrador.css, auth.css, base.css, calendario.css, componentes.css, confirmacion-asesoria.css, contacto.css, expertos.css, feed.css, landing-page.css, legal.css, mensajes.css, mis-asesorias.css, pasarela-pagos.css, perfil.css, recuperar-password.css, registro.css, terminos.css
+  - **JS:**
+    - admin/\* (scripts admin), auth.js, calendario.js, common.js, confirmacion-asesoria.js, contacto.js, expertos.js, feed.js, index.js, legal.js, login.js, mensajes.js, mis asesorias.js, mis-asesorias.js, mobile-menu.js, pasarela-pagos.js, perfil.js, recuperar-password.js, registro-experto.js, registro.js, test-auth.js
+  - **IMG:**
+    - logo.png, circulo.gif, cuadro-animado.gif, lineas-animadas.gif
 
 ---
-
-## ⚙️ Comandos Clave
-
-- Instalar dependencias:
-  `npm install`
-- Inicializar datos de prueba:
-  `node inicializar.js`
-- Iniciar servidor backend:
-  `node app.js`
-- Iniciar servidor con nodemon (desarrollo):
-  `npx nodemon app.js`
-  o si está instalado globalmente:
-  `nodemon app.js`
 
 ## 🚩 Cambios y Mejoras Recientes
 
-- Modernización de la vista de perfil de experto (`perfil-experto.ejs`) con diseño responsivo y tarjetas.
-- Nuevo flujo de edición de perfil de experto: botón "Editar perfil" lleva a `/editar-perfil-experto`.
-- Formulario de edición prellenado con los datos actuales del experto.
-- Corrección de rutas y middleware en Express para navegación fluida.
+- Rediseño moderno y responsivo de la vista de perfil de experto (`perfil-experto.ejs`)
+- Nuevo flujo de edición de perfil de experto (`editar-perfil-experto.ejs`), formulario prellenado
+- Navegación fluida entre perfil y edición
+- Panel de administración completo y modular
+- Refactorización de rutas, middlewares y assets
+- Documentación y estructura de carpetas actualizada
 - Proyecto subido y sincronizado en GitHub: [web-3.0](https://github.com/DianaJJ0/web-3.0)
-
-### Navegación de usuario/experto
-
-- Accede a tu perfil: `/perfil-experto`
-- Edita tu perfil: `/editar-perfil-experto` (formulario prellenado)
-- Cambios en el diseño y experiencia de usuario en ambas vistas.
 
 ---
 
-## 🌐 Acceso a la Aplicación
+## 🌐 Acceso y Navegación
 
 Abre tu navegador y visita:
 
@@ -171,29 +147,7 @@ Abre tu navegador y visita:
 
 ---
 
-## 🛠️ Backend
-
-- **Express.js:** Servidor web y API REST.
-- **Mongoose:** Modelos y conexión a MongoDB.
-- **Rutas:** Endpoints para usuarios, expertos, categorías, pagos y mensajería.
-- **Autenticación:** JWT y sesiones.
-- **Inicialización:** Script para poblar categorías y usuarios de prueba.
-- **Configuración:** Variables en `.env` (MongoDB, JWT, puerto, etc.)
-
----
-
-## 🎨 Frontend (views/)
-
-- **EJS:** Plantillas dinámicas para las vistas.
-- **Assets:** Archivos CSS, JS y multimedia.
-- **Flujo usuario:** Registro → Login → Selección de experto → Calendario → Pago → Chat.
-- **Panel admin:** Gestión de usuarios y expertos.
-- **Componentes:** Header, footer, navbar y otros reutilizables en `/componentes`.
-- **Personalización:** Puedes editar los archivos `.ejs` y los assets para adaptar el diseño.
-
----
-
-## 🔗 Endpoints Principales
+## � Endpoints y Rutas Principales
 
 - `POST /api/usuarios/login` — Inicio de sesión
 - `POST /api/usuarios` — Registro de usuario
@@ -201,21 +155,8 @@ Abre tu navegador y visita:
 - `GET /api/expertos` — Listado de expertos
 - `POST /api/pse/crear-transaccion` — Iniciar pago
 - `GET /api/mensajeria/conversaciones` — Conversaciones usuario
-
----
-
-## 🧑‍💻 Autor
-
-**Diana Carolina Jiménez**
-GitHub: [@DianaJJ0](https://github.com/DianaJJ0)
-
----
-
-## 🏆 Estado Actual
-
-- Backend y frontend operativos
-- Mensajería y pagos integrados
-- Estructura lista para escalar y agregar nuevas funcionalidades
+- `GET /perfil-experto` — Vista de perfil de experto (EJS)
+- `GET /editar-perfil-experto` — Formulario de edición de perfil (EJS)
 
 ---
 
@@ -238,4 +179,22 @@ Instala nodemon con `npm install -g nodemon` y ejecuta `nodemon backend/app.js` 
 
 ---
 
+## 🧑‍💻 Autor
+
+**Diana Carolina Jiménez**
+GitHub: [@DianaJJ0](https://github.com/DianaJJ0)
+
+---
+
+## 🏆 Estado Actual
+
+- Backend y frontend operativos
+- Mensajería y pagos integrados
+- Panel de administración funcional
+- Estructura lista para escalar y agregar nuevas funcionalidades
+
+---
+
 # Repositorio actualizado: https://github.com/DianaJJ0/web-3.0
+
+- `GET /api/categorias` — Listado de categorías

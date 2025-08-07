@@ -9,9 +9,6 @@ const app = express();
 const { Experto } = require("./models/models");
 const Usuario = require("./models/usuario");
 
-// ...existing code...
-
-// ...existing code...
 
 // Middleware global para pasar esExperto a todas las vistas
 app.use(async (req, res, next) => {

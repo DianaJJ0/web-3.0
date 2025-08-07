@@ -5,10 +5,8 @@ const Usuario = require("../models/usuario");
 // Ruta para mostrar el formulario (si usas EJS, la vista ya existe)
 router.get("/", async (req, res) => {
   let email = "";
-  if (req.session && req.session.usuarioId) {
-    // Busca el email del usuario autenticado
-    const usuario = await Usuario.findById(req.session.usuarioId);
-    if (usuario) email = usuario.email;
+  if (req.session && req.session.email) {
+    email = req.session.email;
   }
   res.render("registro-experto", { email });
 });
@@ -192,15 +190,15 @@ router.post("/", async (req, res) => {
   }
 
   // Solo permitir si el usuario está logeado (sesión activa)
-  if (!req.session || !req.session.usuarioId) {
+  if (!req.session || !req.session.email) {
     return res.status(401).render("registro-experto", {
       error: "Debes iniciar sesión como usuario para registrarte como experto.",
     });
   }
 
   try {
-    // Buscar usuario autenticado por ID de sesión
-    const usuario = await Usuario.findById(req.session.usuarioId);
+    // Buscar usuario autenticado por email de sesión
+    const usuario = await Usuario.findOne({ email: req.session.email });
     if (!usuario) {
       return res.status(400).render("registro-experto", {
         error: "Usuario no encontrado.",

@@ -26,7 +26,7 @@
   <!-- Cuerpo principal de la página -->
 
   <!-- Header: barra superior de navegación -->
-  <%- include('componentes/header') %>
+  
 
     <main class="container">
       <!-- Contenedor principal de la página -->
@@ -38,17 +38,35 @@
         <div class="perfil-card">
           <!-- Tarjeta principal de perfil -->
           <div class="perfil-avatar">
-            <img src="https://ui-avatars.com/api/?name=Usuario&background=3a8eff&color=fff" alt="Usuario"
-              id="profileAvatar">
-            <!-- Imagen de avatar del usuario -->
-            <button class="change-avatar-btn">
-              <i class="fas fa-camera"></i>
-            </button>
+            <form id="avatarForm" action="/perfil/avatar" method="POST" enctype="multipart/form-data">
+              <label for="avatarInput" class="change-avatar-btn" title="Cambiar foto de perfil"
+                style="cursor:pointer; display:flex; flex-direction:column; align-items:center;">
+                <img
+                  src="<%= usuario && usuario.avatar_url ? usuario.avatar_url : 'https://ui-avatars.com/api/?name=' + (usuario ? usuario.nombre : 'Usuario') + '&background=3a8eff&color=fff' %>"
+                  alt="Usuario" id="profileAvatar"
+                  style="border-radius:50%; width:120px; height:120px; object-fit:cover; border:2px solid #3a8eff; box-shadow:0 0 8px #3a8eff55;">
+                <span
+                  style="margin-top:8px; color:#3a8eff; font-weight:500; font-size:1rem; display:flex; align-items:center; gap:6px;">
+                  <i class="fas fa-camera"></i>
+                  <% if (!usuario || !usuario.avatar_url) { %>
+                    Agregar foto
+                    <% } else { %>
+                      Cambiar foto
+                      <% } %>
+                </span>
+              </label>
+              <input type="file" id="avatarInput" name="avatar" accept="image/*" style="display:none"
+                onchange="document.getElementById('avatarForm').submit();">
+            </form>
           </div>
           <div class="perfil-info">
-            <h2 id="userName">Nombre del Usuario</h2>
+            <h2 id="userName">
+              <%= usuario ? usuario.nombre + ' ' + usuario.apellido : 'Nombre del Usuario' %>
+            </h2>
             <!-- Nombre del usuario -->
-            <p id="userEmail">correo@ejemplo.com</p>
+            <p id="userEmail">
+              <%= usuario ? usuario.email : 'correo@ejemplo.com' %>
+            </p>
             <!-- Email del usuario -->
             <div class="perfil-actions">
               <a href="/editar-perfil.html" class="btn btn-primary">

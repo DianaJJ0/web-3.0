@@ -11,10 +11,7 @@ async function main() {
     useUnifiedTopology: true,
   });
 
-  const usuarios = await Usuario.find(
-    {},
-    { email: 1, password_hash: 1, _id: 0 }
-  );
+  const usuarios = await Usuario.find({}, { email: 1, password_hash: 1 });
   console.log("Usuarios registrados:");
   for (const u of usuarios) {
     console.log(`Email: ${u.email}\nHash: ${u.password_hash}\n`);

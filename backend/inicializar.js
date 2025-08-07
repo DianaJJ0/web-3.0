@@ -107,18 +107,16 @@ async function crearUsuariosPrueba() {
 /* Crear expertos de prueba */
 async function crearExpertosPrueba() {
   console.log("Creando expertos de prueba...");
-  // Busca los usuarios por email para obtener sus IDs
-  const usuarioMaria = await Usuario.findOne({ email: "experto@test.com" });
-  const usuarioCarlos = await Usuario.findOne({ email: "carlos@expertos.com" });
+  // Usa email para asociar expertos a usuarios
   const expertos = [
     {
-      userId: usuarioMaria ? usuarioMaria._id : null,
+      email: "experto@test.com",
       especialidad: "Desarrollo Web",
       descripcion: "10 años de experiencia en desarrollo web y aplicaciones.",
       foto: "/assets/img/default-avatar.png",
     },
     {
-      userId: usuarioCarlos ? usuarioCarlos._id : null,
+      email: "carlos@expertos.com",
       especialidad: "Soporte Técnico",
       descripcion: "Especialista en soporte técnico y redes.",
       foto: "/assets/img/default-avatar.png",
@@ -126,9 +124,9 @@ async function crearExpertosPrueba() {
   ];
   let contador = 0;
   for (const experto of expertos) {
-    if (!experto.userId) continue;
+    if (!experto.email) continue;
     try {
-      await Experto.findOneAndUpdate({ userId: experto.userId }, experto, {
+      await Experto.findOneAndUpdate({ email: experto.email }, experto, {
         upsert: true,
         new: true,
       });

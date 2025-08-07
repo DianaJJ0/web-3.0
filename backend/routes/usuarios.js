@@ -12,8 +12,8 @@ router.post("/session", async (req, res) => {
     if (!usuario) {
       return res.status(404).json({ error: "Usuario no encontrado." });
     }
-    req.session.usuarioId = usuario._id.toString();
-    res.json({ mensaje: "Sesión iniciada", usuarioId: usuario._id });
+    req.session.email = usuario.email;
+    res.json({ mensaje: "Sesión iniciada", email: usuario.email });
   } catch (err) {
     res.status(500).json({ error: "Error al establecer sesión." });
   }
@@ -31,7 +31,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Contraseña incorrecta." });
     }
     // Asigna la sesión de usuario
-    req.session.usuarioId = usuario._id.toString();
+    req.session.email = usuario.email;
     res.json({ mensaje: "Login exitoso", usuario, token: "token-demo" });
   } catch (err) {
     res.status(500).json({ error: "Error al iniciar sesión." });
@@ -74,8 +74,8 @@ router.get("/:email", async (req, res) => {
 });
 // Verificar sesión activa
 router.get("/session", (req, res) => {
-  if (req.session && req.session.usuarioId) {
-    res.json({ usuarioId: req.session.usuarioId });
+  if (req.session && req.session.email) {
+    res.json({ email: req.session.email });
   } else {
     res.status(401).json({ error: "No autenticado" });
   }

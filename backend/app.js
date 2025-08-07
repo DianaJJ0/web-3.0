@@ -1,21 +1,56 @@
-// ...existing code...
+// --- Ruta para subir imagen de perfil ---
+
+const path = require("path");
+const multer = require("multer");
+const fs = require("fs");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
-const path = require("path");
 
 const app = express();
 const { Experto } = require("./models/models");
 const Usuario = require("./models/usuario");
 
+const uploadDir = path.join(__dirname, "../views/assets/img/usuarios");
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    // Nombre único por email
+    const ext = file.originalname.split(".").pop();
+    const email = req.session.email.replace(/[^a-zA-Z0-9]/g, "_");
+    cb(null, email + "." + ext);
+  },
+});
+const upload = multer({ storage });
+
+app.post("/perfil/avatar", upload.single("avatar"), async (req, res) => {
+  if (!req.session || !req.session.email) {
+    return res.redirect("/login");
+  }
+  try {
+    const usuario = await Usuario.findOne({ email: req.session.email });
+    if (!usuario) return res.redirect("/perfil.html");
+    usuario.avatar_url = "/assets/img/usuarios/" + req.file.filename;
+    await usuario.save();
+    res.redirect("/perfil.html");
+  } catch (err) {
+    console.error("Error al subir avatar:", err);
+    res.redirect("/perfil.html");
+  }
+});
+
 // Middleware global para pasar esExperto a todas las vistas
 app.use(async (req, res, next) => {
   res.locals.esExperto = false;
-  if (req.session && req.session.usuarioId) {
+  if (req.session && req.session.email) {
     try {
-      const usuario = await Usuario.findById(req.session.usuarioId);
+      const usuario = await Usuario.findOne({ email: req.session.email });
       if (usuario && usuario.es_experto) {
         res.locals.esExperto = true;
       }
@@ -60,9 +95,9 @@ app.use(express.json());
 // Middleware global para pasar esExperto a todas las vistas
 app.use(async (req, res, next) => {
   res.locals.esExperto = false;
-  if (req.session && req.session.usuarioId) {
+  if (req.session && req.session.email) {
     try {
-      const usuario = await Usuario.findById(req.session.usuarioId);
+      const usuario = await Usuario.findOne({ email: req.session.email });
       if (usuario && usuario.es_experto) {
         res.locals.esExperto = true;
       }
@@ -97,11 +132,11 @@ const formidable = require("express-formidable");
 
 // Ruta para perfil de experto (debe ir después de la configuración de vistas)
 app.get("/perfil-experto", async (req, res) => {
-  if (!req.session || !req.session.usuarioId) {
+  if (!req.session || !req.session.email) {
     return res.redirect("/login");
   }
   try {
-    const usuario = await Usuario.findById(req.session.usuarioId);
+    const usuario = await Usuario.findOne({ email: req.session.email });
     if (!usuario || !usuario.es_experto) {
       return res.redirect("/registro-experto");
     }
@@ -149,11 +184,8 @@ app.get("/expertos.html", async (req, res) => {
 app.get("/registro.html", (req, res) => res.render("registro"));
 app.get("/registro-experto.html", async (req, res) => {
   let email = "";
-  if (req.session && req.session.usuarioId) {
-    try {
-      const usuario = await Usuario.findById(req.session.usuarioId);
-      if (usuario) email = usuario.email;
-    } catch (e) {}
+  if (req.session && req.session.email) {
+    email = req.session.email;
   }
   res.render("registro-experto", { email });
 });
@@ -169,7 +201,17 @@ app.get("/calendario.html", (req, res) =>
   })
 );
 
-app.get("/perfil.html", (req, res) => res.render("perfil"));
+app.get("/perfil.html", async (req, res) => {
+  if (!req.session || !req.session.email) {
+    return res.redirect("/login");
+  }
+  try {
+    const usuario = await Usuario.findOne({ email: req.session.email });
+    res.render("perfil", { usuario });
+  } catch (err) {
+    res.status(500).send("Error al cargar el perfil");
+  }
+});
 app.get("/terminos.html", (req, res) => res.render("terminos"));
 app.get("/privacidad.html", (req, res) => res.render("privacidad"));
 app.get("/contacto.html", (req, res) => res.render("contacto"));
@@ -184,19 +226,19 @@ app.get("/pasarela-pagos.html", (req, res) =>
 );
 
 app.get("/mis-asesorias.html", (req, res) => {
-  const usuarioId = req.session?.usuarioId || "64f1e2c1234567890abcdef1";
+  const email = req.session?.email || "correo@ejemplo.com";
   const rolUsuario = req.session?.rolUsuario || "cliente";
-  res.render("mis-asesorias", { usuarioId, rolUsuario });
+  res.render("mis-asesorias", { email, rolUsuario });
 });
 app.get("/mensajes.html", (req, res) => res.render("mensajes"));
 
 // Ruta para editar perfil de experto
 app.get("/editar-perfil-experto", async (req, res) => {
-  if (!req.session || !req.session.usuarioId) {
+  if (!req.session || !req.session.email) {
     return res.redirect("/login");
   }
   try {
-    const usuario = await Usuario.findById(req.session.usuarioId);
+    const usuario = await Usuario.findOne({ email: req.session.email });
     if (!usuario || !usuario.es_experto) {
       return res.redirect("/perfil-experto");
     }
@@ -208,12 +250,12 @@ app.get("/editar-perfil-experto", async (req, res) => {
 
 // Guardar cambios de perfil de experto
 app.post("/editar-perfil-experto", formidable(), async (req, res) => {
-  if (!req.session || !req.session.usuarioId) {
+  if (!req.session || !req.session.email) {
     return res.redirect("/login");
   }
   try {
     console.log("FIELDS editar-perfil-experto:", req.fields);
-    const usuario = await Usuario.findById(req.session.usuarioId);
+    const usuario = await Usuario.findOne({ email: req.session.email });
     if (!usuario || !usuario.es_experto) {
       return res.redirect("/perfil-experto");
     }
@@ -286,9 +328,10 @@ app.post("/editar-perfil-experto", formidable(), async (req, res) => {
 // Ruta POST para registro de experto
 
 // Ruta dinámica: calendario de experto
-app.get("/expertos/:id/calendario", async (req, res) => {
+// Nueva ruta: buscar experto por email
+app.get("/expertos/email/:email/calendario", async (req, res) => {
   try {
-    const experto = await Experto.findById(req.params.id).populate("userId");
+    const experto = await Experto.findOne({ email: req.params.email });
     if (!experto) return res.status(404).send("Experto no encontrado");
     res.render("calendario", { expertoSeleccionado: experto });
   } catch (err) {

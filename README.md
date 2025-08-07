@@ -1,4 +1,4 @@
-# 🚀 ServiTech Web
+# 🚀 ServiTech Web 2.0
 
 ServiTech es una plataforma web para conectar usuarios con expertos en tecnología, permitiendo agendar asesorías, realizar pagos seguros, gestionar mensajería y administrar usuarios y expertos desde un panel de administración. El sistema incluye autenticación, videollamadas, pagos integrados y un flujo completo para clientes y expertos.
 
@@ -7,17 +7,22 @@ ServiTech es una plataforma web para conectar usuarios con expertos en tecnolog�
 ## 📦 Estructura del Proyecto
 
 ```
-SERVITECH1/
+servitech-1 2.0/
 ├── backend/
 │   ├── config/           # Configuración de base de datos y entorno
-│   ├── models/          # Modelos Mongoose
-│   ├── routes/          # Rutas API REST
-│   ├── services/        # Servicios (email, etc)
-│   ├── controllers/     # Controladores
-│   ├── app.js          # Servidor Express principal
-│   ├── .env            # Variables de entorno
-│   ├── package.json    # Dependencias
-│   └── inicializar.js  # Script para datos iniciales
+│   ├── models/           # Modelos Mongoose
+│   ├── routes/           # Rutas API REST
+│   ├── services/         # Servicios (email, etc)
+│   ├── controllers/      # Controladores
+│   ├── app.js            # Servidor Express principal
+│   ├── inicializar.js    # Script para datos iniciales
+│   ├── package.json      # Dependencias
+│   └── ...
+├── views/                # Vistas EJS y assets (css, js, img)
+│   ├── componentes/      # Header, footer, navbar, etc.
+│   ├── assets/           # Archivos estáticos (css, js, img)
+│   └── *.ejs             # Vistas principales y admin
+└── README.md
 ```
 
 ---
@@ -39,9 +44,9 @@ SERVITECH1/
 # Instala dependencias del sistema
 sudo apt update && sudo apt install -y nodejs npm mongodb git
 
-# Clona el repositorio
-git clone https://github.com/DianaJJ0/servitechWeb.git
-cd servitechWeb/SERVITECH1/backend
+# Clona el repositorio actualizado
+git clone https://github.com/DianaJJ0/web-3.0.git
+cd web-3.0/backend
 
 # Instala dependencias del backend
 npm install
@@ -78,9 +83,9 @@ nodemon app.js
 ```powershell
 # Instala Node.js, MongoDB y Git desde sus sitios oficiales
 
-# Clona el repositorio
-git clone https://github.com/DianaJJ0/servitechWeb.git
-cd servitechWeb/SERVITECH1/backend
+# Clona el repositorio actualizado
+git clone https://github.com/DianaJJ0/web-3.0.git
+cd web-3.0/backend
 
 # Instala dependencias del backend
 npm install
@@ -139,6 +144,20 @@ nodemon app.js
   o si está instalado globalmente:
   `nodemon app.js`
 
+## 🚩 Cambios y Mejoras Recientes
+
+- Modernización de la vista de perfil de experto (`perfil-experto.ejs`) con diseño responsivo y tarjetas.
+- Nuevo flujo de edición de perfil de experto: botón "Editar perfil" lleva a `/editar-perfil-experto`.
+- Formulario de edición prellenado con los datos actuales del experto.
+- Corrección de rutas y middleware en Express para navegación fluida.
+- Proyecto subido y sincronizado en GitHub: [web-3.0](https://github.com/DianaJJ0/web-3.0)
+
+### Navegación de usuario/experto
+
+- Accede a tu perfil: `/perfil-experto`
+- Edita tu perfil: `/editar-perfil-experto` (formulario prellenado)
+- Cambios en el diseño y experiencia de usuario en ambas vistas.
+
 ---
 
 ## 🌐 Acceso a la Aplicación
@@ -146,6 +165,8 @@ nodemon app.js
 Abre tu navegador y visita:
 
 - http://localhost:3001/ (Landing page)
+- http://localhost:3001/perfil-experto (Perfil de experto)
+- http://localhost:3001/editar-perfil-experto (Editar perfil de experto)
 - http://localhost:3001/admin/admin.html (Panel de administración)
 
 ---
@@ -213,7 +234,8 @@ Ejecuta `node inicializar.js` en la carpeta `backend`.
 Abre tu navegador y visita `http://localhost:3001/`.
 
 **¿Cómo uso nodemon para desarrollo?**
-Instala nodemon con `npm install -g nodemon` y ejecuta `nodemon src/app.js` para reinicio automático del servidor al hacer cambios.
+Instala nodemon con `npm install -g nodemon` y ejecuta `nodemon backend/app.js` para reinicio automático del servidor al hacer cambios.
 
 ---
-# web-3.0
+
+# Repositorio actualizado: https://github.com/DianaJJ0/web-3.0

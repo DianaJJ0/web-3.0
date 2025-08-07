@@ -1,10 +1,12 @@
-// Modelo de Categoría para ServiTech
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const categoriaSchema = new mongoose.Schema({
-  nombre: { type: String, required: true }, // Nombre obligatorio
-  descripcion: { type: String }, // Descripción opcional
-  fechaCreacion: { type: Date, default: Date.now }, // Fecha de creación
-});
+const categoriaSchema = new Schema(
+  {
+    nombre: { type: String, required: true, unique: true },
+    descripcion: String,
+  },
+  { collection: "categorias" }
+);
 
 module.exports = mongoose.model("Categoria", categoriaSchema);

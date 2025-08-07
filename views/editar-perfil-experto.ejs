@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editar Perfil Experto</title>
+  <link rel="stylesheet" href="/assets/css/perfil.css" />
+</head>
+
+<body>
+  <main class="perfil-experto-main">
+    <section class="perfil-experto-section">
+      <h1 style="color: var(--primary-color); margin-bottom: 2rem;"><i class="fas fa-user-edit"></i> Editar Perfil de
+        Experto</h1>
+      <form id="form-editar-experto" method="POST" action="/editar-perfil-experto"
+        style="max-width: 600px; margin: 0 auto;">
+        <div class="form-group">
+          <label for="especialidad">Especialidad</label>
+          <input type="text" id="especialidad" name="especialidad" class="form-control" required
+            value="<%= usuario?.experto?.especialidad || '' %>" />
+        </div>
+        <div class="form-group">
+          <label for="descripcion">Descripción</label>
+          <textarea id="descripcion" name="descripcion" class="form-control" rows="3"
+            required><%= usuario?.experto?.descripcion || '' %></textarea>
+        </div>
+        <div class="form-group">
+          <label for="categorias">Categorías (separadas por coma)</label>
+          <input type="text" id="categorias" name="categorias" class="form-control"
+            value="<%= usuario?.experto?.categorias ? usuario.experto.categorias.map(c=>c.nombre).join(', ') : '' %>" />
+        </div>
+        <div class="form-group">
+          <label for="skills">Skills (separadas por coma)</label>
+          <input type="text" id="skills" name="skills" class="form-control"
+            value="<%= usuario?.experto?.skills ? usuario.experto.skills.join(', ') : '' %>" />
+        </div>
+        <div class="form-group">
+          <label for="dias_disponibles">Días disponibles (separados por coma)</label>
+          <input type="text" id="dias_disponibles" name="dias_disponibles" class="form-control"
+            value="<%= usuario?.experto?.horario?.dias_disponibles ? usuario.experto.horario.dias_disponibles.join(', ') : '' %>" />
+        </div>
+        <div class="form-group">
+          <label for="hora_inicio">Hora inicio</label>
+          <input type="time" id="hora_inicio" name="hora_inicio" class="form-control"
+            value="<%= usuario?.experto?.horario?.hora_inicio || '' %>" />
+        </div>
+        <div class="form-group">
+          <label for="hora_fin">Hora fin</label>
+          <input type="time" id="hora_fin" name="hora_fin" class="form-control"
+            value="<%= usuario?.experto?.horario?.hora_fin || '' %>" />
+        </div>
+        <div class="form-group">
+          <label for="precio">Precio por hora (USD)</label>
+          <input type="number" id="precio" name="precio" class="form-control" min="0" step="0.01"
+            value="<%= usuario?.experto?.precio || '' %>" />
+        </div>
+        <div class="form-group">
+          <label for="datosBancarios">Datos bancarios</label>
+          <input type="text" id="datosBancarios" name="datosBancarios" class="form-control"
+            value="<%= usuario?.experto?.datosBancarios || '' %>" />
+        </div>
+        <div style="display: flex; gap: 1.5rem; margin-top: 2rem;">
+          <button type="submit" class="btn"><i class="fas fa-save"></i> Guardar cambios</button>
+          <a href="/perfil-experto" class="btn" style="background: var(--accent-color);"><i
+              class="fas fa-arrow-left"></i> Cancelar</a>
+        </div>
+      </form>
+    </section>
+  </main>
+  <script src="https://kit.fontawesome.com/4b2b2b2b2b.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

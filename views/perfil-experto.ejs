@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil Experto</title>
+  <link rel="stylesheet" href="/assets/css/perfil.css" />
+</head>
+
+<body>
+  <main class="perfil-experto-main">
+    <section class="perfil-experto-section">
+      <% if (typeof usuario !=='undefined' && usuario) { %>
+        <!-- Bloque de cabecera con avatar y datos principales -->
+        <div class="profile-header"
+          style="background: var(--card-bg); box-shadow: var(--card-shadow); border-radius: var(--border-radius); display: flex; align-items: center; gap: 2.5rem; padding: 2rem 2.5rem; margin-bottom: 2.5rem;">
+          <div
+            style="min-width: 7rem; min-height: 7rem; width: 7rem; height: 7rem; border-radius: 50%; background: var(--input-bg); display: flex; align-items: center; justify-content: center; font-size: 3.2rem; color: var(--primary-color); font-weight: bold; border: 3px solid var(--primary-color);">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <div style="flex:1;">
+            <h1 style="color: var(--primary-color); font-size: 2.1rem; margin-bottom: 0.3rem; font-weight: 700;">
+              <%= usuario.nombre %>
+                <%= usuario.apellido %>
+            </h1>
+            <div style="display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;">
+              <span style="color: var(--text-secondary); font-size: 1.1rem;"><i class="fas fa-envelope"></i>
+                <%= usuario.email %>
+              </span>
+              <% if(usuario.experto?.especialidad) { %>
+                <span class="badge" style="background: var(--accent-color);"><i class="fas fa-user-cog"></i>
+                  <%= usuario.experto.especialidad %>
+                </span>
+                <% } %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grid de información profesional y lateral -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-bottom: 2.5rem;">
+          <!-- Columna principal -->
+          <div>
+            <div class="profile-section">
+              <h2><i class="fas fa-briefcase"></i> Información profesional</h2>
+              <ul>
+                <li>
+                  <strong><i class="fas fa-align-left"></i> Descripción:</strong>
+                  <p style="margin: 0.5rem 0 0 0.5rem; color: var(--text-secondary);">
+                    <%= usuario.experto?.descripcion || '-' %>
+                  </p>
+                </li>
+                <li>
+                  <strong><i class="fas fa-tags"></i> Categorías:</strong>
+                  <% if(usuario.experto?.categorias && usuario.experto.categorias.length) { %>
+                    <div class="badge-container">
+                      <% usuario.experto.categorias.forEach(c=> { %>
+                        <span class="badge"><i class="fas fa-tag"></i>
+                          <%= c.nombre %>
+                        </span>
+                        <% }); %>
+                    </div>
+                    <% } else { %> - <% } %>
+                </li>
+                <li>
+                  <strong><i class="fas fa-lightbulb"></i> Skills:</strong>
+                  <% if(usuario.experto?.skills && usuario.experto.skills.length) { %>
+                    <div class="badge-container">
+                      <% usuario.experto.skills.forEach(skill=> { %>
+                        <span class="badge"><i class="fas fa-check-circle"></i>
+                          <%= skill %>
+                        </span>
+                        <% }); %>
+                    </div>
+                    <% } else { %> - <% } %>
+                </li>
+              </ul>
+            </div>
+
+            <div class="profile-section">
+              <h2><i class="fas fa-clock"></i> Disponibilidad y tarifas</h2>
+              <ul>
+                <li>
+                  <strong><i class="fas fa-calendar-alt"></i> Días disponibles:</strong>
+                  <span>
+                    <%= usuario.experto?.horario?.dias_disponibles?.join(' , ') || ' -' %>
+                  </span>
+                </li>
+                <li>
+                  <strong><i class="fas fa-clock"></i> Horario:</strong>
+                  <span>
+                    <%= usuario.experto?.horario?.hora_inicio || '-' %> - <%= usuario.experto?.horario?.hora_fin || '-'
+                        %>
+                  </span>
+                </li>
+                <li>
+                  <strong><i class="fas fa-dollar-sign"></i> Precio por hora:</strong>
+                  <span class="price">$<%= usuario.experto?.precio || '-' %> USD</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Columna lateral -->
+          <div>
+            <div class="profile-section">
+              <h2><i class="fas fa-credit-card"></i> Datos bancarios</h2>
+              <div class="bank-info">
+                <p style="margin: 0; color: var(--text-secondary);">
+                  <i class="fas fa-university"></i>
+                  <%= usuario.experto?.datosBancarios || '-' %>
+                </p>
+              </div>
+            </div>
+            <div class="profile-section">
+              <h2><i class="fas fa-star"></i> Calificación</h2>
+              <div class="calificacion-container">
+                <div class="estrellas">
+                  <% const promedio=usuario.experto?.calificacion?.promedio || 0; %>
+                    <% for(let i=1; i <=5; i++) { %>
+                      <% if(i <=Math.floor(promedio)) { %>
+                        <i class="fas fa-star"></i>
+                        <% } else if(i===Math.ceil(promedio) && promedio % 1>= 0.5) { %>
+                          <i class="fas fa-star-half-alt"></i>
+                          <% } else { %>
+                            <i class="far fa-star"></i>
+                            <% } %>
+                              <% } %>
+                </div>
+                <p style="margin: 0; color: var(--text-secondary);">
+                  <%= promedio.toFixed(1) %> / 5 (<%= usuario.experto?.calificacion?.total_reviews || 0 %> reseñas)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="perfil-experto-actions">
+            <a href="/editar-perfil-experto" class="btn" aria-label="Editar perfil de experto"><i class="fas fa-edit" aria-hidden="true"></i> Editar perfil</a>
+            <a href="/mis-asesorias.html" class="btn"><i class="fas fa-calendar-check"></i> Ver asesorías</a>
+        </div>
+        <% } else { %>
+          <div class="empty-profile">
+            <h1><i class="fas fa-exclamation-triangle"></i> No hay datos de usuario para mostrar.</h1>
+            <p>Por favor, inicia sesión o regístrate como experto.</p>
+            <a href="/login" class="btn">Iniciar sesión</a>
+            <a href="/registro-experto" class="btn">Registrarse como experto</a>
+          </div>
+          <% } %>
+    </section>
+  </main>
+</body>
+
+</html>

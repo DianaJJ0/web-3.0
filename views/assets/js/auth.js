@@ -2,21 +2,22 @@
  * @fileoverview
  * Funciones de autenticación para el views de Servitech.
  * Permite iniciar sesión (login) y obtener el token JWT, así como acceder a rutas protegidas del backend.
- 
+
 /**
  * Inicia sesión enviando las credenciales al backend.
  * Si el login es exitoso, guarda el token y los datos del usuario en localStorage.
- * 
+ *
  * @param {string} email - Correo electrónico del usuario.
  * @param {string} password - Contraseña del usuario.
  * @returns {Promise<Object>} - Objeto usuario autenticado.
  * @throws {Error} - Si las credenciales son inválidas o hay error de red.
  */
 async function login(email, password) {
-  const res = await fetch("http://localhost:3001/api/usuarios/login", {
+  const res = await fetch("http://localhost:3000/api/usuarios/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
+    credentials: "include",
   });
   const data = await res.json();
   if (data.token) {
@@ -36,10 +37,11 @@ async function login(email, password) {
  */
 async function getUsuarios() {
   const token = localStorage.getItem("token");
-  const res = await fetch("http://localhost:3001/api/usuarios", {
+  const res = await fetch("http://localhost:3000/api/usuarios", {
     headers: {
       Authorization: "Bearer " + token,
     },
+    credentials: "include",
   });
   if (res.status === 401) {
     throw new Error("No autorizado");

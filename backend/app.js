@@ -1,4 +1,15 @@
-// Configuración principal de la app ServiTech
+// Ruta para editar perfil de experto (debe ir después de la configuración de vistas y sesiones)
+app.get("/editar-perfil-experto", async (req, res) => {
+  if (!req.session || !req.session.usuarioId) {
+    return res.redirect("/login");
+  }
+  try {
+    const usuario = await Usuario.findById(req.session.usuarioId);
+    res.render("editar-perfil-experto", { usuario });
+  } catch (err) {
+    res.status(500).send("Error al cargar el formulario de edición");
+  }
+});
 require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
@@ -8,11 +19,37 @@ const path = require("path");
 
 const app = express();
 const { Experto } = require("./models/models");
+const Usuario = require("./models/usuario");
+
+// ...existing code...
+
+// ...existing code...
+
+// Middleware global para pasar esExperto a todas las vistas
+app.use(async (req, res, next) => {
+  res.locals.esExperto = false;
+  if (req.session && req.session.usuarioId) {
+    try {
+      const usuario = await Usuario.findById(req.session.usuarioId);
+      if (usuario && usuario.es_experto) {
+        res.locals.esExperto = true;
+      }
+    } catch (e) {}
+  }
+  next();
+});
 
 // Habilita CORS para los frontends permitidos
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: function (origin, callback) {
+      // Permitir cualquier origen local en desarrollo
+      if (!origin || origin.startsWith("http://localhost")) {
+        callback(null, true);
+      } else {
+        callback(new Error("No permitido por CORS"));
+      }
+    },
     credentials: true,
   })
 );
@@ -24,17 +61,36 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false,
+      secure: false, // true solo en producción con HTTPS
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "lax", // "lax" es seguro para desarrollo local
+      path: "/", // Asegura que la cookie se envía a todas las rutas
+      maxAge: 1000 * 60 * 60 * 24, // 1 día
     },
   })
 );
 
 app.use(express.json());
 
+// Middleware global para pasar esExperto a todas las vistas
+app.use(async (req, res, next) => {
+  res.locals.esExperto = false;
+  if (req.session && req.session.usuarioId) {
+    try {
+      const usuario = await Usuario.findById(req.session.usuarioId);
+      if (usuario && usuario.es_experto) {
+        res.locals.esExperto = true;
+      }
+    } catch (e) {}
+  }
+  next();
+});
+
 // Conexión a MongoDB
-const MONGODB_URI = process.env.MONGODB_URI;
+
+// Conexión local por defecto. Si quieres volver a la nube, descomenta el bloque de arriba y comenta este.
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/servitech";
 mongoose
   .connect(MONGODB_URI)
   .then(() => {
@@ -51,13 +107,34 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
 app.use("/assets", express.static(path.join(__dirname, "../views/assets")));
 
+// Permitir parseo de formularios (req.body)
+app.use(express.urlencoded({ extended: true }));
+
+// Ruta para perfil de experto (debe ir después de la configuración de vistas)
+app.get("/perfil-experto", async (req, res) => {
+  if (!req.session || !req.session.usuarioId) {
+    return res.redirect("/login");
+  }
+  try {
+    const usuario = await Usuario.findById(req.session.usuarioId);
+    if (!usuario || !usuario.es_experto) {
+      return res.redirect("/registro-experto");
+    }
+    res.render("perfil-experto", { usuario });
+  } catch (err) {
+    res.status(500).send("Error al cargar el perfil de experto");
+  }
+});
+
 // Rutas principales
 const userRoutes = require("./routes/usuarios");
 const categoriasRoutes = require("./routes/categorias");
 const expertosRoutes = require("./routes/expertos");
+const registroExpertoRoutes = require("./routes/registro-experto");
 app.use("/api/usuarios", userRoutes);
 app.use("/api/categorias", categoriasRoutes);
 app.use("/api/expertos", expertosRoutes);
+app.use("/registro-experto", registroExpertoRoutes);
 
 // Rutas para vistas EJS
 app.get("/", (req, res) => res.render("index"));
@@ -71,6 +148,8 @@ app.get("/expertos.html", async (req, res) => {
 });
 
 app.get("/registro.html", (req, res) => res.render("registro"));
+app.get("/registro-experto.html", (req, res) => res.render("registro-experto"));
+app.get("/login", (req, res) => res.render("login"));
 app.get("/login.html", (req, res) => res.render("login"));
 app.get("/recuperar-password.html", (req, res) =>
   res.render("recuperar-password")
@@ -106,6 +185,8 @@ app.get("/mensajes.html", (req, res) => res.render("mensajes"));
 // Elimina la ruta de perfil de experto si existe
 // app.get("/expertos/:id/perfil", ...);
 
+// Ruta POST para registro de experto
+
 // Ruta dinámica: calendario de experto
 app.get("/expertos/:id/calendario", async (req, res) => {
   try {
@@ -118,11 +199,11 @@ app.get("/expertos/:id/calendario", async (req, res) => {
 });
 
 // Puerto y arranque del servidor
+// Para cambiar el puerto, puedes ejecutar: PORT=3001 node app.js
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(` Servidor backend escuchando en puerto ${PORT}`);
-  console.log(` Accede a la aplicación en: http://localhost:${PORT}`);
+  console.log(`Servidor backend escuchando en puerto ${PORT}`);
+  console.log(`Accede a la aplicación en: http://localhost:${PORT}`);
 });
 
-module.exports = app;
 module.exports = app;

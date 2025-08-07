@@ -27,9 +27,14 @@
                     <a href="/mis-asesorias.html" class="nav-item user-nav-item">
                         <i class="fas fa-calendar-alt"></i> Mis asesorías
                     </a>
-                    <a href="#" class="nav-item user-nav-item" id="mobileLogoutBtn">
-                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-                    </a>
+                    <% if (typeof esExperto !=='undefined' && esExperto) { %>
+                        <a href="/perfil-experto" class="nav-item user-nav-item">
+                            <i class="fas fa-user-tie"></i> Perfil de Experto
+                        </a>
+                        <% } %>
+                            <a href="#" class="nav-item user-nav-item" id="mobileLogoutBtn">
+                                <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                            </a>
                 </div>
             </div>
             <!-- Botones de autenticación -->
@@ -52,9 +57,14 @@
                 <a href="/mis-asesorias.html" class="dropdown-item">
                     <i class="fas fa-calendar-alt"></i> Mis asesorías
                 </a>
-                <a href="#" class="dropdown-item" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-                </a>
+                <% if (typeof esExperto !=='undefined' && esExperto) { %>
+                    <a href="/perfil-experto" class="dropdown-item">
+                        <i class="fas fa-user-tie"></i> Perfil de Experto
+                    </a>
+                    <% } %>
+                        <a href="#" class="dropdown-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                        </a>
             </div>
         </div>
     </nav>

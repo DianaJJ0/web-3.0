@@ -310,7 +310,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (isValid) {
         // Enviar datos al backend
-        fetch("http://localhost:3001/api/usuarios", {
+        fetch("/api/usuarios/registro", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -318,6 +318,7 @@ document.addEventListener("DOMContentLoaded", function () {
             apellido: apellidoInput.value,
             email: emailInput.value,
             password: passwordInput.value,
+            usuario: emailInput.value,
           }),
         })
           .then(async (res) => {

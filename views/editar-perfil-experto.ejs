@@ -2,73 +2,422 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Editar Perfil Experto</title>
-  <link rel="stylesheet" href="/assets/css/perfil.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Perfil de Experto | TuPlataforma</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #3a8eff;
+      --primary-hover: #2a7af0;
+      --accent-color: #12d8fa;
+      --text-color: #fff;
+      --text-secondary: #d0d0d0;
+      --text-light: #a0a0a0;
+      --background: #0f0f0f;
+      --card-bg: #1a1a1a;
+      --input-bg: #2a2a2a;
+      --border-color: #3a3a3a;
+      --border-light: #ffffff14;
+      --focus-shadow: 0 0 0 0.1875rem #3a8eff33;
+      --card-shadow: 0 1.25rem 2.5rem #0000004d;
+      --hover-shadow: 0 0.625rem 1.5625rem #0000004d;
+      --btn-shadow: 0 0.3125rem 0.9375rem #2a7af04d;
+      --border-radius: 0.75rem;
+      --btn-radius: 0.5rem;
+      --input-radius: 0.5rem;
+      --transition: all 0.3s ease;
+      --header-height: 4rem;
+      --content-max-width: 75rem;
+      --section-gap: 1.5rem;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.5;
+      color: var(--text-color);
+      background-color: var(--background);
+      padding: 1rem;
+      min-height: 100vh;
+    }
+
+    .perfil-experto-main {
+      max-width: var(--content-max-width);
+      margin: 0 auto;
+    }
+
+    .perfil-experto-section {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--border-color);
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: var(--section-gap);
+    }
+
+    .form-header h1 {
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    /* Formulario compacto */
+    .edit-form-compact {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .form-group-compact {
+      margin-bottom: 1rem;
+    }
+
+    .form-group-compact label {
+      display: block;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .form-control-compact {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--input-radius);
+      color: var(--text-color);
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    .form-control-compact:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: var(--focus-shadow);
+    }
+
+    textarea.form-control-compact {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    /* Grupo de campos en fila */
+    .form-row-compact {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .form-row-compact .form-group-compact {
+      flex: 1;
+    }
+
+    /* Acciones del formulario */
+    .form-actions-compact {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-form-compact {
+      flex: 1;
+      min-width: 150px;
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--btn-radius);
+      font-weight: 500;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-primary-compact {
+      background: var(--primary-color);
+      color: var(--text-color);
+      border: none;
+      box-shadow: var(--btn-shadow);
+    }
+
+    .btn-primary-compact:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--hover-shadow);
+    }
+
+    .btn-secondary-compact {
+      background: var(--accent-color);
+      color: var(--text-color);
+      border: none;
+    }
+
+    .btn-secondary-compact:hover {
+      background: #10c0e0;
+      transform: translateY(-2px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .form-row-compact {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .btn-form-compact {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .perfil-experto-section {
+        padding: 1.25rem;
+      }
+
+      .form-header h1 {
+        font-size: 1.3rem;
+      }
+
+      .form-control-compact {
+        padding: 0.65rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
   <main class="perfil-experto-main">
     <section class="perfil-experto-section">
-      <h1 style="color: var(--primary-color); margin-bottom: 2rem;"><i class="fas fa-user-edit"></i> Editar Perfil de
-        Experto</h1>
-      <form id="form-editar-experto" method="POST" action="/editar-perfil-experto"
-        style="max-width: 600px; margin: 0 auto;">
-        <div class="form-group">
+      <div class="form-header">
+        <h1><i class="fas fa-user-edit"></i> Editar Perfil de Experto</h1>
+      </div>
+
+
+      <form id="form-editar-experto" method="POST" action="/editar-perfil-experto" class="edit-form-compact">
+        <!-- Información profesional -->
+        <div class="form-group-compact">
           <label for="especialidad">Especialidad</label>
-          <input type="text" id="especialidad" name="especialidad" class="form-control" required
-            value="<%= usuario?.experto?.especialidad || '' %>" />
+          <select id="especialidad" name="especialidad" class="form-control-compact" required>
+            <option value="">Selecciona una especialidad</option>
+          </select>
         </div>
-        <div class="form-group">
-          <label for="descripcion">Descripción</label>
-          <textarea id="descripcion" name="descripcion" class="form-control" rows="3"
-            required><%= usuario?.experto?.descripcion || '' %></textarea>
+
+        <div class="form-group-compact">
+          <label for="descripcion">Descripción profesional</label>
+          <textarea id="descripcion" name="descripcion" class="form-control-compact" rows="3" required
+            placeholder="Describe tu experiencia, formación y enfoque profesional"><%= usuario?.experto?.descripcion || '' %></textarea>
         </div>
-        <div class="form-group">
-          <label for="categorias">Categorías (separadas por coma)</label>
-          <input type="text" id="categorias" name="categorias" class="form-control"
-            value="<%= usuario?.experto?.categorias ? usuario.experto.categorias.map(c=>c.nombre).join(', ') : '' %>" />
+
+        <!-- Habilidades y categorías -->
+        <div class="form-row-compact">
+          <div class="form-group-compact">
+            <label for="categorias">Categorías</label>
+            <select id="categorias" name="categorias" class="form-control-compact" multiple required style="min-height: 80px;">
+              <!-- Opciones dinámicas -->
+            </select>
+            <p class="form-hint">Selecciona una o varias categorías tecnológicas</p>
+          </div>
+
+          <div class="form-group-compact">
+            <label for="skills">Habilidades</label>
+            <select id="skills" name="skills" class="form-control-compact" multiple style="min-height: 80px;">
+              <!-- Opciones dinámicas -->
+            </select>
+            <input type="text" id="nuevaSkill" placeholder="Agregar nueva habilidad tecnológica y presiona Enter">
+            <p class="form-hint">Selecciona o agrega habilidades tecnológicas</p>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="skills">Skills (separadas por coma)</label>
-          <input type="text" id="skills" name="skills" class="form-control"
-            value="<%= usuario?.experto?.skills ? usuario.experto.skills.join(', ') : '' %>" />
+
+        <!-- Disponibilidad -->
+        <div class="form-row-compact">
+          <div class="form-group-compact">
+            <label for="dias_disponibles">Días disponibles</label>
+            <input type="text" id="dias_disponibles" name="dias_disponibles" class="form-control-compact"
+              value="<%= usuario?.experto?.horario?.dias_disponibles ? usuario.experto.horario.dias_disponibles.join(', ') : '' %>"
+              placeholder="Ej: Lunes, Miércoles, Viernes">
+          </div>
+
+          <div class="form-group-compact">
+            <label for="precio">Precio por hora (USD)</label>
+            <div style="position: relative;">
+              <span
+                style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-light);">$</span>
+              <input type="number" id="precio" name="precio" class="form-control-compact" min="0" step="0.01"
+                value="<%= usuario?.experto?.precio || '' %>" style="padding-left: 30px;" placeholder="0.00">
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="dias_disponibles">Días disponibles (separados por coma)</label>
-          <input type="text" id="dias_disponibles" name="dias_disponibles" class="form-control"
-            value="<%= usuario?.experto?.horario?.dias_disponibles ? usuario.experto.horario.dias_disponibles.join(', ') : '' %>" />
+
+        <!-- Horario -->
+        <div class="form-row-compact">
+          <div class="form-group-compact">
+            <label for="hora_inicio">Hora inicio</label>
+            <input type="time" id="hora_inicio" name="hora_inicio" class="form-control-compact"
+              value="<%= usuario?.experto?.horario?.hora_inicio || '' %>">
+          </div>
+
+          <div class="form-group-compact">
+            <label for="hora_fin">Hora fin</label>
+            <input type="time" id="hora_fin" name="hora_fin" class="form-control-compact"
+              value="<%= usuario?.experto?.horario?.hora_fin || '' %>">
+          </div>
         </div>
-        <div class="form-group">
-          <label for="hora_inicio">Hora inicio</label>
-          <input type="time" id="hora_inicio" name="hora_inicio" class="form-control"
-            value="<%= usuario?.experto?.horario?.hora_inicio || '' %>" />
-        </div>
-        <div class="form-group">
-          <label for="hora_fin">Hora fin</label>
-          <input type="time" id="hora_fin" name="hora_fin" class="form-control"
-            value="<%= usuario?.experto?.horario?.hora_fin || '' %>" />
-        </div>
-        <div class="form-group">
-          <label for="precio">Precio por hora (USD)</label>
-          <input type="number" id="precio" name="precio" class="form-control" min="0" step="0.01"
-            value="<%= usuario?.experto?.precio || '' %>" />
-        </div>
-        <div class="form-group">
+
+        <!-- Datos bancarios -->
+        <div class="form-group-compact">
           <label for="datosBancarios">Datos bancarios</label>
-          <input type="text" id="datosBancarios" name="datosBancarios" class="form-control"
-            value="<%= usuario?.experto?.datosBancarios || '' %>" />
+          <input type="text" id="datosBancarios" name="datosBancarios" class="form-control-compact"
+            value="<%= usuario?.experto?.datosBancarios || '' %>"
+            placeholder="Información para recibir pagos (ej: cuenta bancaria, PayPal)">
         </div>
-        <div style="display: flex; gap: 1.5rem; margin-top: 2rem;">
-          <button type="submit" class="btn"><i class="fas fa-save"></i> Guardar cambios</button>
-          <a href="/perfil-experto" class="btn" style="background: var(--accent-color);"><i
-              class="fas fa-arrow-left"></i> Cancelar</a>
+
+        <!-- Acciones -->
+        <div class="form-actions-compact">
+          <button type="button" id="submitEditarExperto" class="btn-form-compact btn-primary-compact">
+            <i class="fas fa-save"></i> Guardar cambios
+          </button>
+          <a href="/perfil-experto" class="btn-form-compact btn-secondary-compact">
+            <i class="fas fa-arrow-left"></i> Cancelar
+          </a>
         </div>
       </form>
+      <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+          // Poblar especialidades
+          const especialidadSelect = document.getElementById('especialidad');
+          const especialidadActual = `<%= usuario?.experto?.especialidad || '' %>`;
+          fetch('/api/especialidades')
+            .then(res => res.json())
+            .then(data => {
+              data.forEach(e => {
+                const opt = document.createElement('option');
+                opt.value = e.nombre;
+                opt.textContent = e.nombre;
+                if (e.nombre === especialidadActual) opt.selected = true;
+                especialidadSelect.appendChild(opt);
+              });
+            });
+
+          // Poblar categorías
+          const categoriasSelect = document.getElementById('categorias');
+          const categoriasActuales = <%= JSON.stringify(usuario?.experto?.categorias ? usuario.experto.categorias.map(c=>c.nombre) : []) %>;
+          fetch('/api/categorias')
+            .then(res => res.json())
+            .then(data => {
+              data.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.nombre;
+                opt.textContent = c.nombre;
+                if (categoriasActuales.includes(c.nombre)) opt.selected = true;
+                categoriasSelect.appendChild(opt);
+              });
+            });
+
+          // Poblar habilidades sugeridas
+          const skillsSelect = document.getElementById('skills');
+          const skillsActuales = <%= JSON.stringify(usuario?.experto?.skills || []) %>;
+          fetch('/api/skills')
+            .then(res => res.json())
+            .then(data => {
+              data.forEach(skill => {
+                const opt = document.createElement('option');
+                opt.value = skill.nombre;
+                opt.textContent = skill.nombre;
+                if (skillsActuales.includes(skill.nombre)) opt.selected = true;
+                skillsSelect.appendChild(opt);
+              });
+              // Si hay skills actuales que no están en la lista, agregarlas
+              skillsActuales.forEach(s => {
+                if (!Array.from(skillsSelect.options).some(opt => opt.value === s)) {
+                  const opt = document.createElement('option');
+                  opt.value = s;
+                  opt.textContent = s;
+                  opt.selected = true;
+                  skillsSelect.appendChild(opt);
+                }
+              });
+            });
+
+          // Permitir agregar nuevas habilidades
+          const nuevaSkillInput = document.getElementById('nuevaSkill');
+          nuevaSkillInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+              e.preventDefault();
+              const val = this.value.trim();
+              let exists = false;
+              Array.from(skillsSelect.options).forEach(opt => {
+                if (opt.value.toLowerCase() === val.toLowerCase()) exists = true;
+              });
+              if (!exists) {
+                const opt = document.createElement('option');
+                opt.value = val;
+                opt.textContent = val;
+                opt.selected = true;
+                skillsSelect.appendChild(opt);
+              } else {
+                // Si ya existe, solo selecciona
+                Array.from(skillsSelect.options).forEach(opt => {
+                  if (opt.value.toLowerCase() === val.toLowerCase()) opt.selected = true;
+                });
+              }
+              this.value = '';
+            }
+          });
+
+          // Envío del formulario
+          const form = document.getElementById('form-editar-experto');
+          const submitBtn = document.getElementById('submitEditarExperto');
+          if (form && submitBtn) {
+            submitBtn.addEventListener('click', async function () {
+              // Convertir selects múltiples a string separados por coma
+              Array.from(categoriasSelect.options).forEach(opt => {
+                if (opt.selected) opt.setAttribute('selected', 'selected');
+                else opt.removeAttribute('selected');
+              });
+              Array.from(skillsSelect.options).forEach(opt => {
+                if (opt.selected) opt.setAttribute('selected', 'selected');
+                else opt.removeAttribute('selected');
+              });
+              const formData = new FormData(form);
+              formData.set('categorias', Array.from(categoriasSelect.selectedOptions).map(o => o.value).join(','));
+              formData.set('skills', Array.from(skillsSelect.selectedOptions).map(o => o.value).join(','));
+              try {
+                const response = await fetch('/editar-perfil-experto', {
+                  method: 'POST',
+                  body: formData,
+                  credentials: 'include'
+                });
+                if (response.redirected) {
+                  window.location.href = response.url;
+                } else {
+                  const result = await response.text();
+                  document.open();
+                  document.write(result);
+                  document.close();
+                }
+              } catch (error) {
+                alert('Error al guardar los cambios: ' + error.message);
+              }
+            });
+          }
+        });
+      </script>
     </section>
   </main>
-  <script src="https://kit.fontawesome.com/4b2b2b2b2b.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

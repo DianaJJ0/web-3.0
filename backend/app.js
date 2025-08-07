@@ -1,3 +1,4 @@
+// ...existing code...
 require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
@@ -8,7 +9,6 @@ const path = require("path");
 const app = express();
 const { Experto } = require("./models/models");
 const Usuario = require("./models/usuario");
-
 
 // Middleware global para pasar esExperto a todas las vistas
 app.use(async (req, res, next) => {
@@ -92,8 +92,8 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
 app.use("/assets", express.static(path.join(__dirname, "../views/assets")));
 
-// Permitir parseo de formularios (req.body)
-app.use(express.urlencoded({ extended: true }));
+// Usar express-formidable para parsear formularios con campos anidados
+const formidable = require("express-formidable");
 
 // Ruta para perfil de experto (debe ir después de la configuración de vistas)
 app.get("/perfil-experto", async (req, res) => {
@@ -105,6 +105,11 @@ app.get("/perfil-experto", async (req, res) => {
     if (!usuario || !usuario.es_experto) {
       return res.redirect("/registro-experto");
     }
+    // Log de depuración para ver los datos que llegan a la vista
+    console.log(
+      "[DEBUG] Datos de usuario enviados a perfil-experto:",
+      JSON.stringify(usuario, null, 2)
+    );
     res.render("perfil-experto", { usuario });
   } catch (err) {
     res.status(500).send("Error al cargar el perfil de experto");
@@ -116,10 +121,19 @@ const userRoutes = require("./routes/usuarios");
 const categoriasRoutes = require("./routes/categorias");
 const expertosRoutes = require("./routes/expertos");
 const registroExpertoRoutes = require("./routes/registro-experto");
+const especialidadesRoutes = require("./routes/especialidades");
+
+// Solo para rutas de usuario, permitir JSON y urlencoded
+app.use("/api/usuarios", express.json());
+app.use("/api/usuarios", express.urlencoded({ extended: true }));
 app.use("/api/usuarios", userRoutes);
 app.use("/api/categorias", categoriasRoutes);
 app.use("/api/expertos", expertosRoutes);
+app.use("/api/especialidades", especialidadesRoutes);
+// Usar formidable solo para registro-experto
+app.use("/registro-experto", formidable());
 app.use("/registro-experto", registroExpertoRoutes);
+app.use("/api/skills", require("./routes/skills"));
 
 // Rutas para vistas EJS
 app.get("/", (req, res) => res.render("index"));
@@ -133,7 +147,16 @@ app.get("/expertos.html", async (req, res) => {
 });
 
 app.get("/registro.html", (req, res) => res.render("registro"));
-app.get("/registro-experto.html", (req, res) => res.render("registro-experto"));
+app.get("/registro-experto.html", async (req, res) => {
+  let email = "";
+  if (req.session && req.session.usuarioId) {
+    try {
+      const usuario = await Usuario.findById(req.session.usuarioId);
+      if (usuario) email = usuario.email;
+    } catch (e) {}
+  }
+  res.render("registro-experto", { email });
+});
 app.get("/login", (req, res) => res.render("login"));
 app.get("/login.html", (req, res) => res.render("login"));
 app.get("/recuperar-password.html", (req, res) =>
@@ -166,6 +189,61 @@ app.get("/mis-asesorias.html", (req, res) => {
   res.render("mis-asesorias", { usuarioId, rolUsuario });
 });
 app.get("/mensajes.html", (req, res) => res.render("mensajes"));
+
+// Ruta para editar perfil de experto
+app.get("/editar-perfil-experto", async (req, res) => {
+  if (!req.session || !req.session.usuarioId) {
+    return res.redirect("/login");
+  }
+  try {
+    const usuario = await Usuario.findById(req.session.usuarioId);
+    if (!usuario || !usuario.es_experto) {
+      return res.redirect("/perfil-experto");
+    }
+    res.render("editar-perfil-experto", { usuario });
+  } catch (err) {
+    res.status(500).send("Error al cargar la edición de perfil de experto");
+  }
+});
+
+// Guardar cambios de perfil de experto
+app.post(
+  "/editar-perfil-experto",
+  express.urlencoded({ extended: true }),
+  async (req, res) => {
+    if (!req.session || !req.session.usuarioId) {
+      return res.redirect("/login");
+    }
+    try {
+      const usuario = await Usuario.findById(req.session.usuarioId);
+      if (!usuario || !usuario.es_experto) {
+        return res.redirect("/perfil-experto");
+      }
+      // Actualizar campos
+      usuario.experto.especialidad = req.body.especialidad;
+      usuario.experto.descripcion = req.body.descripcion;
+      usuario.experto.categorias = req.body.categorias
+        ? req.body.categorias.split(",").map((c) => ({ nombre: c.trim() }))
+        : [];
+      usuario.experto.skills = req.body.skills
+        ? req.body.skills.split(",").map((s) => s.trim())
+        : [];
+      usuario.experto.horario = {
+        dias_disponibles: req.body.dias_disponibles
+          ? req.body.dias_disponibles.split(",").map((d) => d.trim())
+          : [],
+        hora_inicio: req.body.hora_inicio || "",
+        hora_fin: req.body.hora_fin || "",
+      };
+      usuario.experto.precio = req.body.precio;
+      usuario.experto.datosBancarios = req.body.datosBancarios;
+      await usuario.save();
+      res.redirect("/perfil-experto");
+    } catch (err) {
+      res.status(500).send("Error al guardar los cambios de perfil de experto");
+    }
+  }
+);
 
 // Elimina la ruta de perfil de experto si existe
 // app.get("/expertos/:id/perfil", ...);

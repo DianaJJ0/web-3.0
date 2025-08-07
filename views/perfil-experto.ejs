@@ -2,100 +2,425 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perfil Experto</title>
-  <link rel="stylesheet" href="/assets/css/perfil.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil de Experto | TuPlataforma</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #3a8eff;
+      --primary-hover: #2a7af0;
+      --accent-color: #12d8fa;
+      --text-color: #fff;
+      --text-secondary: #d0d0d0;
+      --text-light: #a0a0a0;
+      --background: #0f0f0f;
+      --card-bg: #1a1a1a;
+      --input-bg: #2a2a2a;
+      --border-color: #3a3a3a;
+      --border-light: #ffffff14;
+      --focus-shadow: 0 0 0 0.1875rem #3a8eff33;
+      --card-shadow: 0 1.25rem 2.5rem #0000004d;
+      --hover-shadow: 0 0.625rem 1.5625rem #0000004d;
+      --btn-shadow: 0 0.3125rem 0.9375rem #2a7af04d;
+      --border-radius: 0.75rem;
+      --btn-radius: 0.5rem;
+      --input-radius: 0.5rem;
+      --transition: all 0.3s ease;
+      --header-height: 4rem;
+      --content-max-width: 75rem;
+      --avatar-size: 5rem;
+      --section-gap: 1.5rem;
+      --grid-gap: 1.5rem;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.5;
+      color: var(--text-color);
+      background-color: var(--background);
+      padding: 1rem;
+      min-height: 100vh;
+    }
+
+    .perfil-experto-main {
+      max-width: var(--content-max-width);
+      margin: 0 auto;
+    }
+
+    .perfil-experto-section {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--border-color);
+    }
+
+    /* Header compacto */
+    .profile-header-compact {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: var(--section-gap);
+    }
+
+    .profile-avatar-compact {
+      width: var(--avatar-size);
+      height: var(--avatar-size);
+      border-radius: 50%;
+      background: var(--input-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--primary-color);
+      border: 2px solid var(--primary-color);
+      flex-shrink: 0;
+    }
+
+    .profile-header-content-compact {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .profile-header-compact h1 {
+      color: var(--text-color);
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .profile-specialty {
+      color: var(--accent-color);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .profile-contact {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-item {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* Grid compacto */
+    .profile-grid-compact {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--grid-gap);
+      margin-bottom: var(--section-gap);
+    }
+
+    @media (min-width: 768px) {
+      .profile-grid-compact {
+        grid-template-columns: 2fr 1fr;
+      }
+    }
+
+    /* Secciones compactas */
+    .profile-section-compact {
+      background: var(--input-bg);
+      border-radius: var(--border-radius);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .profile-section-compact h2 {
+      color: var(--text-color);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .profile-section-compact h2 i {
+      color: var(--accent-color);
+      width: 1.25rem;
+      text-align: center;
+    }
+
+    /* Lista compacta */
+    .info-list-compact {
+      list-style: none;
+    }
+
+    .info-list-compact li {
+      margin-bottom: 1rem;
+    }
+
+    .info-list-compact li:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-label {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .info-value {
+      color: var(--text-color);
+      font-size: 0.95rem;
+    }
+
+    .info-value.price {
+      color: var(--accent-color);
+      font-weight: 500;
+    }
+
+    /* Badges compactos */
+    .badge-container-compact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .badge-compact {
+      background: rgba(58, 142, 255, 0.15);
+      color: var(--primary-color);
+      padding: 0.35rem 0.75rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-weight: 500;
+      border: 1px solid var(--primary-color);
+    }
+
+    /* Descripción */
+    .profile-description {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-top: 0.5rem;
+    }
+
+    /* Calificación compacta */
+    .rating-compact {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .stars-compact {
+      color: #ffc107;
+      font-size: 1.1rem;
+      letter-spacing: 0.1rem;
+    }
+
+    .rating-value {
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .rating-count {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    /* Botones compactos */
+    .profile-actions-compact {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-compact {
+      background: var(--primary-color);
+      color: var(--text-color);
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--btn-radius);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-compact:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    .btn-compact i {
+      font-size: 0.9em;
+    }
+
+    /* Estado vacío */
+    .empty-profile-compact {
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .empty-profile-compact h1 {
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .empty-profile-compact p {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    /* Animación sutil */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .perfil-experto-section {
+      animation: fadeIn 0.4s ease-out;
+    }
+  </style>
 </head>
 
 <body>
   <main class="perfil-experto-main">
     <section class="perfil-experto-section">
       <% if (typeof usuario !=='undefined' && usuario) { %>
-        <!-- Bloque de cabecera con avatar y datos principales -->
-        <div class="profile-header"
-          style="background: var(--card-bg); box-shadow: var(--card-shadow); border-radius: var(--border-radius); display: flex; align-items: center; gap: 2.5rem; padding: 2rem 2.5rem; margin-bottom: 2.5rem;">
-          <div
-            style="min-width: 7rem; min-height: 7rem; width: 7rem; height: 7rem; border-radius: 50%; background: var(--input-bg); display: flex; align-items: center; justify-content: center; font-size: 3.2rem; color: var(--primary-color); font-weight: bold; border: 3px solid var(--primary-color);">
+        <!-- Cabecera compacta -->
+        <div class="profile-header-compact">
+          <div class="profile-avatar-compact">
             <i class="fas fa-user-tie"></i>
           </div>
-          <div style="flex:1;">
-            <h1 style="color: var(--primary-color); font-size: 2.1rem; margin-bottom: 0.3rem; font-weight: 700;">
+          <div class="profile-header-content-compact">
+            <h1>
               <%= usuario.nombre %>
                 <%= usuario.apellido %>
             </h1>
-            <div style="display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;">
-              <span style="color: var(--text-secondary); font-size: 1.1rem;"><i class="fas fa-envelope"></i>
-                <%= usuario.email %>
-              </span>
-              <% if(usuario.experto?.especialidad) { %>
-                <span class="badge" style="background: var(--accent-color);"><i class="fas fa-user-cog"></i>
-                  <%= usuario.experto.especialidad %>
-                </span>
-                <% } %>
-            </div>
+            <% if(usuario.experto?.especialidad) { %>
+              <div class="profile-specialty">
+                <i class="fas fa-certificate"></i>
+                <%= usuario.experto.especialidad %>
+              </div>
+              <% } %>
+                <div class="profile-contact">
+                  <span class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <%= usuario.email %>
+                  </span>
+                  <span class="contact-item">
+                    <i class="fas fa-dollar-sign"></i>
+                    $<%= usuario.experto?.precio || '--' %>/hora
+                  </span>
+                </div>
           </div>
         </div>
 
-        <!-- Grid de información profesional y lateral -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-bottom: 2.5rem;">
+        <!-- Grid compacto -->
+        <div class="profile-grid-compact">
           <!-- Columna principal -->
           <div>
-            <div class="profile-section">
-              <h2><i class="fas fa-briefcase"></i> Información profesional</h2>
-              <ul>
+            <!-- Sección Descripción -->
+            <div class="profile-section-compact">
+              <h2><i class="fas fa-align-left"></i> Descripción</h2>
+              <div class="profile-description">
+                <%= usuario.experto?.descripcion || 'El experto no ha proporcionado una descripción.' %>
+              </div>
+            </div>
+
+            <!-- Sección Habilidades -->
+            <div class="profile-section-compact">
+              <h2><i class="fas fa-lightbulb"></i> Habilidades y Categorías</h2>
+              <ul class="info-list-compact">
                 <li>
-                  <strong><i class="fas fa-align-left"></i> Descripción:</strong>
-                  <p style="margin: 0.5rem 0 0 0.5rem; color: var(--text-secondary);">
-                    <%= usuario.experto?.descripcion || '-' %>
-                  </p>
-                </li>
-                <li>
-                  <strong><i class="fas fa-tags"></i> Categorías:</strong>
+                  <span class="info-label">Categorías principales</span>
                   <% if(usuario.experto?.categorias && usuario.experto.categorias.length) { %>
-                    <div class="badge-container">
+                    <div class="badge-container-compact">
                       <% usuario.experto.categorias.forEach(c=> { %>
-                        <span class="badge"><i class="fas fa-tag"></i>
+                        <span class="badge-compact">
+                          <i class="fas fa-tag"></i>
                           <%= c.nombre %>
                         </span>
                         <% }); %>
                     </div>
-                    <% } else { %> - <% } %>
+                    <% } else { %>
+                      <span class="info-value">No especificado</span>
+                      <% } %>
                 </li>
                 <li>
-                  <strong><i class="fas fa-lightbulb"></i> Skills:</strong>
+                  <span class="info-label">Habilidades técnicas</span>
                   <% if(usuario.experto?.skills && usuario.experto.skills.length) { %>
-                    <div class="badge-container">
+                    <div class="badge-container-compact">
                       <% usuario.experto.skills.forEach(skill=> { %>
-                        <span class="badge"><i class="fas fa-check-circle"></i>
+                        <span class="badge-compact">
+                          <i class="fas fa-check-circle"></i>
                           <%= skill %>
                         </span>
                         <% }); %>
                     </div>
-                    <% } else { %> - <% } %>
+                    <% } else { %>
+                      <span class="info-value">No especificado</span>
+                      <% } %>
                 </li>
               </ul>
             </div>
 
-            <div class="profile-section">
-              <h2><i class="fas fa-clock"></i> Disponibilidad y tarifas</h2>
-              <ul>
+            <!-- Sección Disponibilidad -->
+            <div class="profile-section-compact">
+              <h2><i class="fas fa-calendar-alt"></i> Disponibilidad</h2>
+              <ul class="info-list-compact">
                 <li>
-                  <strong><i class="fas fa-calendar-alt"></i> Días disponibles:</strong>
-                  <span>
-                    <%= usuario.experto?.horario?.dias_disponibles?.join(' , ') || ' -' %>
+                  <span class="info-label">Días disponibles</span>
+                  <span class="info-value">
+                    <%= usuario.experto?.horario?.dias_disponibles?.join(', ') || ' No especificado' %>
                   </span>
                 </li>
                 <li>
-                  <strong><i class="fas fa-clock"></i> Horario:</strong>
-                  <span>
-                    <%= usuario.experto?.horario?.hora_inicio || '-' %> - <%= usuario.experto?.horario?.hora_fin || '-'
-                        %>
+                  <span class="info-label">Horario de atención</span>
+                  <span class="info-value">
+                    <%= usuario.experto?.horario?.hora_inicio || '--' %> - <%= usuario.experto?.horario?.hora_fin
+                        || '--' %>
                   </span>
-                </li>
-                <li>
-                  <strong><i class="fas fa-dollar-sign"></i> Precio por hora:</strong>
-                  <span class="price">$<%= usuario.experto?.precio || '-' %> USD</span>
                 </li>
               </ul>
             </div>
@@ -103,19 +428,11 @@
 
           <!-- Columna lateral -->
           <div>
-            <div class="profile-section">
-              <h2><i class="fas fa-credit-card"></i> Datos bancarios</h2>
-              <div class="bank-info">
-                <p style="margin: 0; color: var(--text-secondary);">
-                  <i class="fas fa-university"></i>
-                  <%= usuario.experto?.datosBancarios || '-' %>
-                </p>
-              </div>
-            </div>
-            <div class="profile-section">
+            <!-- Sección Calificación -->
+            <div class="profile-section-compact">
               <h2><i class="fas fa-star"></i> Calificación</h2>
-              <div class="calificacion-container">
-                <div class="estrellas">
+              <div class="rating-compact">
+                <div class="stars-compact">
                   <% const promedio=usuario.experto?.calificacion?.promedio || 0; %>
                     <% for(let i=1; i <=5; i++) { %>
                       <% if(i <=Math.floor(promedio)) { %>
@@ -127,24 +444,66 @@
                             <% } %>
                               <% } %>
                 </div>
-                <p style="margin: 0; color: var(--text-secondary);">
-                  <%= promedio.toFixed(1) %> / 5 (<%= usuario.experto?.calificacion?.total_reviews || 0 %> reseñas)
-                </p>
+                <div>
+                  <span class="rating-value">
+                    <%= promedio.toFixed(1) %>
+                  </span>
+                  <span class="rating-count">(<%= usuario.experto?.calificacion?.total_reviews || 0 %> reseñas)</span>
+                </div>
               </div>
+            </div>
+
+            <!-- Sección Datos Bancarios -->
+            <div class="profile-section-compact">
+              <h2><i class="fas fa-university"></i> Datos Bancarios</h2>
+              <span class="info-label">Método de pago</span>
+              <span class="info-value">
+                <%= usuario.experto?.datosBancarios || 'No especificado' %>
+              </span>
+            </div>
+
+            <!-- Sección Estadísticas (opcional) -->
+            <div class="profile-section-compact">
+              <h2><i class="fas fa-chart-line"></i> Estadísticas</h2>
+              <ul class="info-list-compact">
+                <li>
+                  <span class="info-label">Asesorías realizadas</span>
+                  <span class="info-value">24</span>
+                </li>
+                <li>
+                  <span class="info-label">Clientes satisfechos</span>
+                  <span class="info-value">95%</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
 
-        <div class="perfil-experto-actions">
-            <a href="/editar-perfil-experto" class="btn" aria-label="Editar perfil de experto"><i class="fas fa-edit" aria-hidden="true"></i> Editar perfil</a>
-            <a href="/mis-asesorias.html" class="btn"><i class="fas fa-calendar-check"></i> Ver asesorías</a>
+        <!-- Acciones -->
+        <div class="profile-actions-compact">
+          <a href="/editar-perfil-experto" class="btn-compact">
+            <i class="fas fa-edit"></i> Editar perfil
+          </a>
+          <a href="/mis-asesorias" class="btn-compact">
+            <i class="fas fa-calendar-check"></i> Mis asesorías
+          </a>
+          <a href="#" class="btn-compact" style="background: var(--accent-color);">
+            <i class="fas fa-comment-dollar"></i> Tarifas
+          </a>
         </div>
         <% } else { %>
-          <div class="empty-profile">
-            <h1><i class="fas fa-exclamation-triangle"></i> No hay datos de usuario para mostrar.</h1>
-            <p>Por favor, inicia sesión o regístrate como experto.</p>
-            <a href="/login" class="btn">Iniciar sesión</a>
-            <a href="/registro-experto" class="btn">Registrarse como experto</a>
+          <!-- Estado vacío -->
+          <div class="empty-profile-compact">
+            <h1><i class="fas fa-exclamation-triangle"></i> Perfil no disponible</h1>
+            <p>Inicia sesión o regístrate como experto para acceder a esta sección.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+              <a href="/login" class="btn-compact">
+                <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+              </a>
+              <a href="/registro-experto" class="btn-compact">
+                <i class="fas fa-user-plus"></i> Registrarse
+              </a>
+            </div>
           </div>
           <% } %>
     </section>

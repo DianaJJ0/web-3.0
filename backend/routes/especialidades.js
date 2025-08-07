@@ -1,11 +1,21 @@
 const express = require("express");
 const router = express.Router();
-const Categoria = require("../models/categorias");
+const Especialidad = require("../models/especialidad");
 
-// Crear categoría
+// Listar especialidades
+router.get("/", async (req, res) => {
+  try {
+    const especialidades = await Especialidad.find();
+    res.json(especialidades);
+  } catch (err) {
+    res.status(500).json({ error: "Error al obtener especialidades." });
+  }
+});
+
+// Crear especialidad (opcional, para pruebas)
 router.post("/crear", async (req, res) => {
   const { nombre, descripcion } = req.body;
-  // Palabras clave tecnológicas permitidas (igual que especialidades)
+  // Palabras clave tecnológicas permitidas (puedes ampliar esta lista)
   const palabrasClave = [
     "web",
     "program",
@@ -130,27 +140,19 @@ router.post("/crear", async (req, res) => {
   if (!esTecnologica) {
     return res
       .status(400)
-      .json({ error: "Solo se permiten categorías tecnológicas o afines." });
+      .json({
+        error: "Solo se permiten especialidades tecnológicas o afines.",
+      });
   }
   try {
-    const existe = await Categoria.findOne({ nombre });
+    const existe = await Especialidad.findOne({ nombre });
     if (existe)
-      return res.status(400).json({ error: "La categoría ya existe." });
-    const nuevaCategoria = new Categoria({ nombre, descripcion });
-    await nuevaCategoria.save();
-    res.status(201).json({ mensaje: "Categoría creada correctamente." });
+      return res.status(400).json({ error: "La especialidad ya existe." });
+    const nueva = new Especialidad({ nombre, descripcion });
+    await nueva.save();
+    res.status(201).json({ mensaje: "Especialidad creada correctamente." });
   } catch (err) {
-    res.status(500).json({ error: "Error al crear categoría." });
-  }
-});
-
-// Listar categorías
-router.get("/", async (req, res) => {
-  try {
-    const categorias = await Categoria.find();
-    res.json(categorias);
-  } catch (err) {
-    res.status(500).json({ error: "Error al obtener categorías." });
+    res.status(500).json({ error: "Error al crear especialidad." });
   }
 });
 

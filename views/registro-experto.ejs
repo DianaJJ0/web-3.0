@@ -55,7 +55,9 @@
 
                   <div class="form-group compact">
                     <label for="especialidad">Especialidad</label>
-                    <input type="text" id="especialidad" name="especialidad" required placeholder="Ej: Desarrollo Web">
+                    <select id="especialidad" name="especialidad" required>
+                      <option value="">Selecciona una especialidad</option>
+                    </select>
                   </div>
                 </div>
 
@@ -70,14 +72,20 @@
                 <div class="form-row">
                   <div class="form-group compact">
                     <label for="categorias">Categorías</label>
-                    <input type="text" id="categorias" name="categorias" placeholder="Ej: Programación, Marketing">
-                    <p class="form-hint">Separadas por comas</p>
+                    <select id="categorias" name="categorias" multiple required style="min-height: 80px;">
+                      <!-- Opciones dinámicas -->
+                    </select>
+                    <p class="form-hint">Selecciona una o varias categorías tecnológicas</p>
                   </div>
 
                   <div class="form-group compact">
                     <label for="skills">Habilidades</label>
-                    <input type="text" id="skills" name="skills" placeholder="Ej: React, SEO">
-                    <p class="form-hint">Separadas por comas</p>
+                    <select id="skills" name="skills" multiple style="min-height: 80px;">
+                      <!-- Opciones dinámicas -->
+                    </select>
+                    <input type="text" id="nuevaSkill"
+                      placeholder="Agregar nueva habilidad tecnológica y presiona Enter">
+                    <p class="form-hint">Selecciona o agrega habilidades tecnológicas</p>
                   </div>
                 </div>
 
@@ -183,12 +191,90 @@
                   </button>
                 </div>
                 <script>
-                  document.addEventListener('DOMContentLoaded', function () {
+                  document.addEventListener('DOMContentLoaded', async function () {
+                    // Poblar especialidades
+                    const especialidadSelect = document.getElementById('especialidad');
+                    fetch('/api/especialidades')
+                      .then(res => res.json())
+                      .then(data => {
+                        data.forEach(e => {
+                          const opt = document.createElement('option');
+                          opt.value = e.nombre;
+                          opt.textContent = e.nombre;
+                          especialidadSelect.appendChild(opt);
+                        });
+                      });
+
+                    // Poblar categorías
+                    const categoriasSelect = document.getElementById('categorias');
+                    fetch('/api/categorias')
+                      .then(res => res.json())
+                      .then(data => {
+                        data.forEach(c => {
+                          const opt = document.createElement('option');
+                          opt.value = c.nombre;
+                          opt.textContent = c.nombre;
+                          categoriasSelect.appendChild(opt);
+                        });
+                      });
+
+                    // Poblar habilidades sugeridas (de expertos existentes)
+                    const skillsSelect = document.getElementById('skills');
+                    fetch('/api/skills')
+                      .then(res => res.json())
+                      .then(data => {
+                        data.forEach(skill => {
+                          const opt = document.createElement('option');
+                          opt.value = skill.nombre;
+                          opt.textContent = skill.nombre;
+                          skillsSelect.appendChild(opt);
+                        });
+                      });
+
+                    // Permitir agregar nuevas habilidades
+                    const nuevaSkillInput = document.getElementById('nuevaSkill');
+                    nuevaSkillInput.addEventListener('keydown', function (e) {
+                      if (e.key === 'Enter' && this.value.trim()) {
+                        e.preventDefault();
+                        const val = this.value.trim();
+                        let exists = false;
+                        Array.from(skillsSelect.options).forEach(opt => {
+                          if (opt.value.toLowerCase() === val.toLowerCase()) exists = true;
+                        });
+                        if (!exists) {
+                          const opt = document.createElement('option');
+                          opt.value = val;
+                          opt.textContent = val;
+                          opt.selected = true;
+                          skillsSelect.appendChild(opt);
+                        } else {
+                          // Si ya existe, solo selecciona
+                          Array.from(skillsSelect.options).forEach(opt => {
+                            if (opt.value.toLowerCase() === val.toLowerCase()) opt.selected = true;
+                          });
+                        }
+                        this.value = '';
+                      }
+                    });
+
+                    // Envío del formulario
                     const form = document.getElementById('registroExpertoForm');
                     const submitBtn = document.getElementById('submitExperto');
                     if (form && submitBtn) {
                       submitBtn.addEventListener('click', async function () {
+                        // Convertir selects múltiples a string separados por coma
+                        Array.from(categoriasSelect.options).forEach(opt => {
+                          if (opt.selected) opt.setAttribute('selected', 'selected');
+                          else opt.removeAttribute('selected');
+                        });
+                        Array.from(skillsSelect.options).forEach(opt => {
+                          if (opt.selected) opt.setAttribute('selected', 'selected');
+                          else opt.removeAttribute('selected');
+                        });
                         const formData = new FormData(form);
+                        // Unir seleccionados en string para backend legacy
+                        formData.set('categorias', Array.from(categoriasSelect.selectedOptions).map(o => o.value).join(','));
+                        formData.set('skills', Array.from(skillsSelect.selectedOptions).map(o => o.value).join(','));
                         try {
                           const response = await fetch('/registro-experto', {
                             method: 'POST',

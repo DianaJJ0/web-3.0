@@ -6,7 +6,7 @@ const Usuario = require("../models/usuario");
 router.get("/", async (req, res) => {
   try {
     const expertos = await Usuario.find({ es_experto: true });
-    res.json(expertos);
+    res.render("expertos", { expertos });
   } catch (err) {
     res.status(500).json({ error: "Error al obtener expertos." });
   }

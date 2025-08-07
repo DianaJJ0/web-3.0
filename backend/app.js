@@ -139,7 +139,7 @@ app.use("/api/skills", require("./routes/skills"));
 app.get("/", (req, res) => res.render("index"));
 app.get("/expertos.html", async (req, res) => {
   try {
-    const expertos = await Experto.find().populate("userId");
+    const expertos = await Usuario.find({ es_experto: true });
     res.render("expertos", { expertos });
   } catch (err) {
     res.render("expertos", { expertos: [] });

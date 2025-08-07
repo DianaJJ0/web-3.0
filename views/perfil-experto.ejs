@@ -320,10 +320,58 @@
     .perfil-experto-section {
       animation: fadeIn 0.4s ease-out;
     }
+
+    /* Botón flotante para volver al inicio */
+    .btn-float-home {
+      position: fixed;
+      left: 2.2rem;
+      bottom: 2.2rem;
+      z-index: 1000;
+      width: 3.3rem;
+      height: 3.3rem;
+      border-radius: 50%;
+      background: var(--primary-color);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px #0004;
+      font-size: 1.5rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+      outline: none;
+    }
+
+    .btn-float-home:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 6px 24px #0006;
+      transform: translateY(-2px) scale(1.07);
+    }
+
+    @media (max-width: 600px) {
+      .btn-float-home {
+        left: 1rem;
+        bottom: 1rem;
+        width: 2.6rem;
+        height: 2.6rem;
+        font-size: 1.15rem;
+      }
+    }
   </style>
+
 </head>
 
 <body>
+  <a href="/" class="btn-float-home" title="Volver al inicio">
+    <i class="fas fa-home"></i>
+  </a>
+  <div style="margin-bottom: 1.2rem;">
+    <a href="/" title="Volver a inicio"
+      style="display:inline-flex;align-items:center;gap:0.5em;color:var(--primary-color);font-weight:600;text-decoration:none;font-size:1.05em;">
+      <i class="fas fa-arrow-left"></i> Volver al inicio
+    </a>
+  </div>
   <main class="perfil-experto-main">
     <section class="perfil-experto-section">
       <% if (typeof usuario !=='undefined' && usuario) { %>

@@ -136,41 +136,55 @@
 
           <div class="expert-grid">
             <!-- Grid que contiene las tarjetas de expertos -->
-            <% expertos.forEach(function(experto) { %>
-              <article class="expert-card">
-                <div class="expert-card-header">
-                  <img
-                    src="<%= experto.foto || (experto.userId && experto.userId.foto) || '/assets/img/default-avatar.png' %>"
-                    alt="<%= experto.userId ? experto.userId.nombre : experto.nombre %>" class="expert-photo">
-                  <div class="expert-info">
-                    <h3 class="expert-name">
-                      <%= experto.userId ? experto.userId.nombre + ' ' + experto.userId.apellido : experto.nombre %>
-                    </h3>
-                    <p class="expert-specialty">
-                      <%= experto.especialidad %>
-                    </p>
-                    <div class="expert-rating">
-                      <span class="rating-stars">⭐⭐⭐⭐⭐</span>
-                      <span class="rating-value">5.0</span>
+            <% if (expertos.length===0) { %>
+              <p style="color:white; font-size:1.2em; text-align:center; width:100%;">No hay expertos disponibles.</p>
+              <% } %>
+                <% expertos.forEach(function(experto) { %>
+                  <article class="expert-card">
+                    <div class="expert-card-header">
+                      <img src="<%= experto.avatar_url || '/assets/img/default-avatar.png' %>"
+                        alt="<%= experto.nombre + ' ' + experto.apellido %>" class="expert-photo">
+                      <div class="expert-info">
+                        <h3 class="expert-name">
+                          <%= experto.nombre %>
+                            <%= experto.apellido %>
+                        </h3>
+                        <p class="expert-specialty">
+                          <%= experto.experto && experto.experto.especialidad ? experto.experto.especialidad : '' %>
+                        </p>
+                        <div class="expert-rating">
+                          <span class="rating-stars">⭐⭐⭐⭐⭐</span>
+                          <span class="rating-value">
+                            <%= experto.experto && experto.experto.calificacion && experto.experto.calificacion.promedio
+                              ? experto.experto.calificacion.promedio : '5.0' %>
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div class="expert-card-body">
-                  <p class="expert-description">
-                    <%= experto.descripcion %>
-                  </p>
-                  <div class="expert-skills">
-                    <!-- Puedes agregar habilidades si las tienes en el modelo -->
-                  </div>
-                </div>
-                <div class="expert-card-footer">
-                  <div class="expert-price">$35/h</div>
-                  <a href="/expertos/<%= experto._id %>/calendario" class="btn btn-primary btn-profile">
-                    <i class="fas fa-user-circle"></i> Ver perfil
-                  </a>
-                </div>
-              </article>
-              <% }); %>
+                    <div class="expert-card-body">
+                      <p class="expert-description">
+                        <%= experto.experto && experto.experto.descripcion ? experto.experto.descripcion : '' %>
+                      </p>
+                      <div class="expert-skills">
+                        <% if (experto.experto && experto.experto.skills && experto.experto.skills.length) { %>
+                          <% experto.experto.skills.forEach(function(skill) { %>
+                            <span class="expert-skill"><i class="fas fa-check"></i>
+                              <%= skill %>
+                            </span>
+                            <% }); %>
+                              <% } %>
+                      </div>
+                    </div>
+                    <div class="expert-card-footer">
+                      <div class="expert-price">
+                        $<%= experto.experto && experto.experto.precio ? experto.experto.precio : 'N/A' %>/h
+                      </div>
+                      <a href="/expertos/<%= experto._id %>/calendario" class="btn btn-primary btn-profile">
+                        <i class="fas fa-user-circle"></i> Ver perfil
+                      </a>
+                    </div>
+                  </article>
+                  <% }); %>
           </div>
         </section>
       </div>

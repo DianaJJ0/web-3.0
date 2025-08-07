@@ -207,43 +207,41 @@ app.get("/editar-perfil-experto", async (req, res) => {
 });
 
 // Guardar cambios de perfil de experto
-app.post(
-  "/editar-perfil-experto",
-  express.urlencoded({ extended: true }),
-  async (req, res) => {
-    if (!req.session || !req.session.usuarioId) {
-      return res.redirect("/login");
-    }
-    try {
-      const usuario = await Usuario.findById(req.session.usuarioId);
-      if (!usuario || !usuario.es_experto) {
-        return res.redirect("/perfil-experto");
-      }
-      // Actualizar campos
-      usuario.experto.especialidad = req.body.especialidad;
-      usuario.experto.descripcion = req.body.descripcion;
-      usuario.experto.categorias = req.body.categorias
-        ? req.body.categorias.split(",").map((c) => ({ nombre: c.trim() }))
-        : [];
-      usuario.experto.skills = req.body.skills
-        ? req.body.skills.split(",").map((s) => s.trim())
-        : [];
-      usuario.experto.horario = {
-        dias_disponibles: req.body.dias_disponibles
-          ? req.body.dias_disponibles.split(",").map((d) => d.trim())
-          : [],
-        hora_inicio: req.body.hora_inicio || "",
-        hora_fin: req.body.hora_fin || "",
-      };
-      usuario.experto.precio = req.body.precio;
-      usuario.experto.datosBancarios = req.body.datosBancarios;
-      await usuario.save();
-      res.redirect("/perfil-experto");
-    } catch (err) {
-      res.status(500).send("Error al guardar los cambios de perfil de experto");
-    }
+app.post("/editar-perfil-experto", formidable(), async (req, res) => {
+  if (!req.session || !req.session.usuarioId) {
+    return res.redirect("/login");
   }
-);
+  try {
+    console.log("FIELDS editar-perfil-experto:", req.fields);
+    const usuario = await Usuario.findById(req.session.usuarioId);
+    if (!usuario || !usuario.es_experto) {
+      return res.redirect("/perfil-experto");
+    }
+    // Actualizar campos
+    usuario.experto.especialidad = req.fields.especialidad;
+    usuario.experto.descripcion = req.fields.descripcion;
+    usuario.experto.categorias = req.fields.categorias
+      ? req.fields.categorias.split(",").map((c) => ({ nombre: c.trim() }))
+      : [];
+    usuario.experto.skills = req.fields.skills
+      ? req.fields.skills.split(",").map((s) => s.trim())
+      : [];
+    usuario.experto.horario = {
+      dias_disponibles: req.fields.dias_disponibles
+        ? req.fields.dias_disponibles.split(",").map((d) => d.trim())
+        : [],
+      hora_inicio: req.fields.hora_inicio || "",
+      hora_fin: req.fields.hora_fin || "",
+    };
+    usuario.experto.precio = req.fields.precio;
+    usuario.experto.datosBancarios = req.fields.datosBancarios;
+    await usuario.save();
+    res.redirect("/perfil-experto");
+  } catch (err) {
+    console.error("ERROR editar-perfil-experto:", err);
+    res.status(500).send("Error al guardar los cambios de perfil de experto");
+  }
+});
 
 // Elimina la ruta de perfil de experto si existe
 // app.get("/expertos/:id/perfil", ...);
